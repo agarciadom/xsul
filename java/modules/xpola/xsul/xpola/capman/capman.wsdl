@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Capman"
+  targetNamespace="http://www.extreme.indiana.edu/xsul/xpola/capman/"
+  xmlns:wsdlns="http://www.extreme.indiana.edu/xsul/xpola/capman/"
+  xmlns:typens="http://www.extreme.indiana.edu/xsul/xpola/capman/xsd"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <schema targetNamespace="http://www.extreme.indiana.edu/xsul/xpola/capman/xsd"
+      xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+      <annotation><documentation xml:lang="en">
+       This XML schema is an example showing how to define input message with
+       set of parameters and how to define output message with results.
+       NOTE: this schema uses default value for some parameters but support
+       for it depends on how much of XML Schemas is supported by WS client software.
+      </documentation></annotation>
+      <complexType name='SequenceOfString'>
+        <sequence>
+          <element name='item' type='xsd:string' maxOccurs='unbounded'/>
+        </sequence>
+      </complexType>
+
+      <element name="RegisterCapabilityIn">
+        <complexType>
+          <sequence>
+            <element name='acap' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RegisterCapabilityOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+     </element>
+      
+      <element name="GetCapabilityIn">
+        <complexType>
+          <sequence>
+            <element name='handle' type='xsd:string' />
+            <element name='userdn' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetCapabilityOut">
+        <complexType>
+          <sequence>
+            <element name='acap' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="GetCapabilityByHandleIn">
+        <complexType>
+          <sequence>
+            <element name='handle' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetCapabilityByHandleOut">
+        <complexType>
+          <sequence>
+            <element name='acap' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="GetCapabilitiesByOwnerIn">
+        <complexType>
+          <sequence>
+            <element name='owner' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetCapabilitiesByOwnerOut">
+        <complexType>
+          <sequence>
+            <element name='caps' type='typens:SequenceOfString' />
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="UpdateCapabilityIn">
+        <complexType>
+          <sequence>
+            <element name='acap' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="UpdateCapabilityOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+
+      <element name="RevokeCapabilityByHandleIn">
+        <complexType>
+          <sequence>
+            <element name='handle' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RevokeCapabilityByHandleOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+      
+      <element name="RevokeCapabilitiesByOwnerIn">
+        <complexType>
+          <sequence>
+            <element name='owner' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RevokeCapabilitiesByOwnerOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+
+     <element name="GetCapabilityHandlesByOwnerIn">
+        <complexType>
+          <sequence>
+            <element name='owner' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetCapabilityHandlesByOwnerOut">
+        <complexType>
+          <sequence>
+            <element name='handlers' type='typens:SequenceOfString' />
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="GetCapabilityHandlesByUserIn">
+        <complexType>
+          <sequence>
+            <element name='user' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetCapabilityHandlesByUserOut">
+        <complexType>
+          <sequence>
+            <element name='handlers' type='typens:SequenceOfString' />
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="GetAllCapabilityHandlesIn">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+      <element name="GetAllCapabilityHandlesOut">
+        <complexType>
+          <sequence>
+            <element name='handlers' type='typens:SequenceOfString' />
+          </sequence>
+        </complexType>
+      </element>
+
+     </schema>
+    </types>
+        
+    <message name="RegisterCapability">
+      <part name="parameters" element="typens:RegisterCapabilityIn"/>
+    </message>
+    <message name="RegisterCapabilityResponse">
+      <part name="parameters" element="typens:RegisterCapabilityOut"/>
+    </message>
+    <message name="GetCapability">
+      <part name="parameters" element="typens:GetCapabilityIn"/>
+    </message>
+    <message name="GetCapabilityResponse">
+      <part name="parameters" element="typens:GetCapabilityOut"/>
+    </message>
+    <message name="GetCapabilityByHandle">
+      <part name="parameters" element="typens:GetCapabilityByHandleIn"/>
+    </message>
+    <message name="GetCapabilityByHandleResponse">
+      <part name="parameters" element="typens:GetCapabilityByHandleOut"/>
+    </message>
+    <message name="GetCapabilitiesByOwner">
+      <part name="parameters" element="typens:GetCapabilitiesByOwnerIn"/>
+    </message>
+    <message name="GetCapabilitiesByOwnerResponse">
+      <part name="parameters" element="typens:GetCapabilitiesByOwnerOut"/>
+    </message>
+    <message name="UpdateCapability">
+      <part name="parameters" element="typens:UpdateCapabilityIn"/>
+    </message>
+    <message name="UpdateCapabilityResponse">
+      <part name="parameters" element="typens:UpdateCapabilityOut"/>
+    </message>
+    <message name="RevokeCapabilityByHandle">
+      <part name="parameters" element="typens:RevokeCapabilityByHandleIn"/>
+    </message>
+    <message name="RevokeCapabilityByHandleResponse">
+      <part name="parameters" element="typens:RevokeCapabilityByHandleOut"/>
+    </message>
+    <message name="RevokeCapabilitiesByOwner">
+      <part name="parameters" element="typens:RevokeCapabilitiesByOwnerIn"/>
+    </message>
+    <message name="RevokeCapabilitiesByOwnerResponse">
+      <part name="parameters" element="typens:RevokeCapabilitiesByOwnerOut"/>
+    </message>
+    <message name="GetCapabilityHandlesByOwner">
+      <part name="parameters" element="typens:GetCapabilityHandlesByOwnerIn"/>
+    </message>
+    <message name="GetCapabilityHandlesByOwnerResponse">
+      <part name="parameters" element="typens:GetCapabilityHandlesByOwnerOut"/>
+    </message>
+    <message name="GetCapabilityHandlesByUser">
+      <part name="parameters" element="typens:GetCapabilityHandlesByUserIn"/>
+    </message>
+    <message name="GetCapabilityHandlesByUserResponse">
+      <part name="parameters" element="typens:GetCapabilityHandlesByUserOut"/>
+    </message>
+    <message name="GetAllCapabilityHandles">
+      <part name="parameters" element="typens:GetAllCapabilityHandlesIn"/>
+    </message>
+    <message name="GetAllCapabilityHandlesResponse">
+      <part name="parameters" element="typens:GetAllCapabilityHandlesOut"/>
+    </message>
+
+    <portType name="CapmanPortType">
+      <operation name="registerCapability">
+        <input message="wsdlns:RegisterCapability"/>
+        <output message="wsdlns:RegisterCapabilityResponse"/>
+      </operation>
+      <operation name="getCapability">
+        <input message="wsdlns:GetCapability"/>
+        <output message="wsdlns:GetCapabilityResponse"/>
+      </operation>
+      <operation name="getCapabilityByHandle">
+        <input message="wsdlns:GetCapabilityByHandle"/>
+        <output message="wsdlns:GetCapabilityByHandleResponse"/>
+      </operation>
+      <operation name="getCapabilitiesByOwner">
+        <input message="wsdlns:GetCapabilitiesByOwner"/>
+        <output message="wsdlns:GetCapabilitiesByOwnerResponse"/>
+      </operation>
+      <operation name="updateCapability">
+        <input message="wsdlns:UpdateCapability"/>
+        <output message="wsdlns:UpdateCapabilityResponse"/>
+      </operation>
+      <operation name="revokeCapabilityByHandle">
+        <input message="wsdlns:RevokeCapabilityByHandle"/>
+        <output message="wsdlns:RevokeCapabilityByHandleResponse"/>
+      </operation>
+      <operation name="revokeCapabilitiesByOwner">
+        <input message="wsdlns:RevokeCapabilitiesByOwner"/>
+        <output message="wsdlns:RevokeCapabilitiesByOwnerResponse"/>
+      </operation>
+      <operation name="getCapabilityHandlesByOwner">
+        <input message="wsdlns:GetCapabilityHandlesByOwner"/>
+        <output message="wsdlns:GetCapabilityHandlesByOwnerResponse"/>
+      </operation>
+      <operation name="getCapabilityHandlesByUser">
+        <input message="wsdlns:GetCapabilityHandlesByUser"/>
+        <output message="wsdlns:GetCapabilityHandlesByUserResponse"/>
+      </operation>
+      <operation name="getAllCapabilityHandles">
+        <input message="wsdlns:GetAllCapabilityHandles"/>
+        <output message="wsdlns:GetAllCapabilityHandlesResponse"/>
+      </operation>
+      
+    </portType>
+    
+    <binding name="CapmanBinding" type="wsdlns:CapmanPortType">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <operation name="registerCapability">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/registerCapability"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getCapability">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/getCapability"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getCapabilityByHandle">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/getCapabilityByHandle"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getCapabilitiesByOwner">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/getCapabilitiesByOwner"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="updateCapability">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/updateCapability"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="revokeCapabilityByHandle">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/revokeCapabilityByHandle"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="revokeCapabilitiesByOwner">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/revokeCapabilitiesByOwner"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getCapabilityHandlesByOwner">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/getCapabilityHandlesByOwner"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getCapabilityHandlesByUser">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/getCapabilityHandlesByUser"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getAllCapabilityHandles">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/capman/getAllCapabilityHandles"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+    </binding>
+    
+    <service name="CapmanService">
+      <documentation>Capability Manager Service</documentation>
+      <port name="CapmanPort" binding="wsdlns:CapmanBinding">
+        <soap:address location="http://www.extreme.indiana.edu/xsul/capman/endpoint"/>
+      </port>
+    </service>
+    
+</definitions>
+

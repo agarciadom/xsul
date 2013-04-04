@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Benchmark1"
+ targetNamespace="http://www.extreme.indiana.edu/wsdl/Benchmark1.wsdl"
+ xmlns:tns="http://www.extreme.indiana.edu/wsdl/Benchmark1.wsdl"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:b1="urn:Benchmark1"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:Benchmark1"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:b1="urn:Benchmark1"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+  <complexType name="ArrayOfstring">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:string[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+
+  <complexType name="ArrayOfint">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:int[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+
+  <complexType name="ArrayOfdouble">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:double" minOccurs="0" maxOccurs="unbounded"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:double[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+
+<!-- vv Michael R Head vv -->
+	<xsd:complexType name="SimpleEvent">
+		<xsd:all>
+			<xsd:element name="sequenceNumber" type="xsd:int"/>
+			<xsd:element name="timestamp" type="xsd:double"/>
+			<xsd:element name="message" type="xsd:string"/>
+		</xsd:all>
+	</xsd:complexType>
+
+	<complexType name="ArrayOfSimpleEvents">
+		 <complexContent>
+			<restriction base="SOAP-ENC:Array">
+				<sequence>
+					<element name="item" type="b1:SimpleEvent" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="b1:SimpleEvent[]"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+
+
+	<xsd:complexType name="MeshInterfaceObject">
+		<xsd:all>
+			<xsd:element name="x" type="xsd:int"/>
+			<xsd:element name="y" type="xsd:int"/>
+			<xsd:element name="value" type="xsd:double"/>
+		</xsd:all>
+	</xsd:complexType>
+
+	<complexType name="ArrayOfMeshInterfaceObject">
+		 <complexContent>
+			<restriction base="SOAP-ENC:Array">
+				<sequence>
+					<element name="item" type="b1:MeshInterfaceObject" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="b1:MeshInterfaceObject[]"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+<!-- ^^ Michael R Head ^^ -->
+
+  <complexType name="echoVoidResponse">
+   <sequence>
+   </sequence>
+  </complexType>
+
+ </schema>
+
+</types>
+
+<message name="echoVoidRequest">
+</message>
+
+<message name="echoVoidResponse">
+</message>
+
+<message name="echoBase64Request">
+ <part name="input" type="xsd:base64Binary"/>
+</message>
+
+<message name="echoBase64Response">
+ <part name="output" type="xsd:base64Binary"/>
+</message>
+
+<message name="echoStringArrayRequest">
+ <part name="input" type="b1:ArrayOfstring"/>
+</message>
+
+<message name="echoStringArrayResponse">
+ <part name="output" type="b1:ArrayOfstring"/>
+</message>
+
+<message name="echoIntArrayRequest">
+ <part name="input" type="b1:ArrayOfint"/>
+</message>
+
+<message name="echoIntArrayResponse">
+ <part name="output" type="b1:ArrayOfint"/>
+</message>
+
+<message name="echoDoubleArrayRequest">
+ <part name="input" type="b1:ArrayOfdouble"/>
+</message>
+
+<message name="echoDoubleArrayResponse">
+ <part name="output" type="b1:ArrayOfdouble"/>
+</message>
+
+<!-- vv Michael R Head -->
+<message name="echoSimpleEventsRequest">
+	<part name="input" type="b1:ArrayOfSimpleEvents"/>
+</message>
+
+<message name="echoSimpleEventsResponse">
+	<part name="output" type="b1:ArrayOfSimpleEvents"/>
+</message>
+
+<message name="echoMeshInterfaceObjectsRequest">
+	<part name="input" type="b1:ArrayOfMeshInterfaceObject"/>
+</message>
+
+<message name="echoMeshInterfaceObjectsResponse">
+	<part name="output" type="b1:ArrayOfMeshInterfaceObject"/>
+</message>
+<!-- ^^ Michael R Head -->
+
+<message name="receiveBase64Request">
+ <part name="input" type="xsd:base64Binary"/>
+</message>
+
+<message name="receiveBase64Response">
+ <part name="size" type="xsd:int"/>
+</message>
+
+
+
+<message name="receiveStringsRequest">
+ <part name="input" type="b1:ArrayOfstring"/>
+</message>
+
+<message name="receiveStringsResponse">
+ <part name="size" type="xsd:int"/>
+</message>
+
+
+
+<message name="receiveIntsRequest">
+ <part name="input" type="b1:ArrayOfint"/>
+</message>
+
+<message name="receiveIntsResponse">
+ <part name="size" type="xsd:int"/>
+</message>
+
+
+
+<message name="receiveDoublesRequest">
+ <part name="input" type="b1:ArrayOfdouble"/>
+</message>
+
+<message name="receiveDoublesResponse">
+ <part name="size" type="xsd:int"/>
+</message>
+
+
+<!-- vv Michael R Head vv -->
+<message name="receiveSimpleEventsRequest">
+<part name="input" type="b1:ArrayOfSimpleEvents"/>
+</message>
+
+<message name="receiveSimpleEventsResponse">
+<part name="size" type="xsd:int"/>
+</message>
+
+<message name="receiveMeshInterfaceObjectsRequest">
+<part name="input" type="b1:ArrayOfMeshInterfaceObject"/>
+</message>
+
+<message name="receiveMeshInterfaceObjectsResponse">
+<part name="size" type="xsd:int"/>
+</message>
+<!-- ^^ Michael R Head ^^ -->
+
+
+
+<message name="sendBase64Request">
+ <part name="size" type="xsd:int"/>
+</message>
+
+<message name="sendBase64Response">
+ <part name="output" type="xsd:base64Binary"/>
+</message>
+
+<message name="sendStringsRequest">
+ <part name="size" type="xsd:int"/>
+</message>
+
+<message name="sendStringsResponse">
+ <part name="output" type="b1:ArrayOfstring"/>
+</message>
+
+<message name="sendIntsRequest">
+ <part name="size" type="xsd:int"/>
+</message>
+
+<message name="sendIntsResponse">
+ <part name="output" type="b1:ArrayOfint"/>
+</message>
+
+
+
+<message name="sendDoublesRequest">
+ <part name="size" type="xsd:int"/>
+</message>
+
+<message name="sendDoublesResponse">
+ <part name="output" type="b1:ArrayOfdouble"/>
+</message>
+
+<!-- vv Michael R Head vv -->
+<message name="sendSimpleEventsRequest">
+  <part name="size" type="xsd:int"/>
+</message>
+
+<message name="sendSimpleEventsResponse">
+ <part name="output" type="b1:ArrayOfSimpleEvents"/>
+</message>
+
+<message name="sendMeshInterfaceObjectsRequest">
+  <part name="size" type="xsd:int"/>
+</message>
+
+<message name="sendMeshInterfaceObjectsResponse">
+ <part name="output" type="b1:ArrayOfMeshInterfaceObject"/>
+</message>
+<!-- ^^ Michael R Head ^^ -->
+
+
+<portType name="Benchmark1PortType">
+ <operation name="echoVoid">
+  <documentation>pings the server</documentation>
+  <input message="tns:echoVoidRequest"/>
+  <output message="tns:echoVoidResponse"/>
+ </operation>
+ <operation name="echoBase64">
+  <documentation>echos base64 content</documentation>
+  <input message="tns:echoBase64Request"/>
+  <output message="tns:echoBase64Response"/>
+ </operation>
+ <operation name="echoStrings">
+  <documentation>echos string arrays</documentation>
+  <input message="tns:echoStringArrayRequest"/>
+  <output message="tns:echoStringArrayResponse"/>
+ </operation>
+ <operation name="echoInts">
+  <documentation>echos int arrays</documentation>
+  <input message="tns:echoIntArrayRequest"/>
+  <output message="tns:echoIntArrayResponse"/>
+ </operation>
+ <operation name="echoDoubles">
+  <documentation>echos double arrays</documentation>
+  <input message="tns:echoDoubleArrayRequest"/>
+  <output message="tns:echoDoubleArrayResponse"/>
+ </operation>
+<!-- vv Michael R Head vv -->
+	<operation name="echoSimpleEvents">
+		<input message="tns:echoSimpleEventsRequest"/>
+		<output message="tns:echoSimpleEventsResponse"/>
+	</operation>
+	<operation name="echoMeshInterfaceObjects">
+		<input message="tns:echoMeshInterfaceObjectsRequest"/>
+		<output message="tns:echoMeshInterfaceObjectsResponse"/>
+	</operation>
+<!-- ^^ Michael R Head ^^ --> 
+ 
+ <operation name="receiveBase64">
+  <documentation>receives base64 content</documentation>
+  <input message="tns:receiveBase64Request"/>
+  <output message="tns:receiveBase64Response"/>
+ </operation>
+ <operation name="receiveStrings">
+  <documentation>receives strings</documentation>
+  <input message="tns:receiveStringsRequest"/>
+  <output message="tns:receiveStringsResponse"/>
+ </operation>
+ <operation name="receiveInts">
+  <documentation>receives ints</documentation>
+  <input message="tns:receiveIntsRequest"/>
+  <output message="tns:receiveIntsResponse"/>
+ </operation>
+ <operation name="receiveDoubles">
+  <documentation>receives doubles</documentation>
+  <input message="tns:receiveDoublesRequest"/>
+  <output message="tns:receiveDoublesResponse"/>
+ </operation>
+
+<!-- vv Michael R Head -->
+<operation name="receiveSimpleEvents">
+<input message="tns:receiveSimpleEventsRequest"/>
+<output message="tns:receiveSimpleEventsResponse"/>
+</operation>
+<operation name="receiveMeshInterfaceObjects">
+<input message="tns:receiveMeshInterfaceObjectsRequest"/>
+<output message="tns:receiveMeshInterfaceObjectsResponse"/>
+</operation>
+<!-- ^^ Michael R HEad -->
+
+ <operation name="sendBase64">
+  <documentation>sends base64 content</documentation>
+  <input message="tns:sendBase64Request"/>
+  <output message="tns:sendBase64Response"/>
+ </operation>
+ <operation name="sendStrings">
+  <documentation>sends strings</documentation>
+  <input message="tns:sendStringsRequest"/>
+  <output message="tns:sendStringsResponse"/>
+ </operation>
+ <operation name="sendInts">
+  <documentation>sends ints</documentation>
+  <input message="tns:sendIntsRequest"/>
+  <output message="tns:sendIntsResponse"/>
+ </operation>
+ <operation name="sendDoubles">
+  <documentation>sends doubles</documentation>
+  <input message="tns:sendDoublesRequest"/>
+  <output message="tns:sendDoublesResponse"/>
+ </operation>
+
+<!-- vv Michael R Head vv -->
+<operation name="sendSimpleEvents">
+  <input message="tns:sendSimpleEventsRequest"/>
+  <output message="tns:sendSimpleEventsResponse" />
+</operation>
+<operation name="sendMeshInterfaceObjects">
+  <input message="tns:sendMeshInterfaceObjectsRequest"/>
+  <output message="tns:sendMeshInterfaceObjectsResponse" />
+</operation>
+<!-- ^^ Michael R Head ^^ -->
+
+</portType>
+
+<binding name="Benchmark1" type="tns:Benchmark1PortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="echoVoid">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="echoBase64">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="echoStrings">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="echoInts">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="echoDoubles">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+<!-- vv Michael R Head vv -->
+	<operation name="echoSimpleEvents">
+		<SOAP:operation style="rpc" soapAction=""/>
+		<input>
+			<SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+		</input>
+		<output>
+			<SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+		</output>
+	</operation>  
+	<operation name="echoMeshInterfaceObjects">
+		<SOAP:operation style="rpc" soapAction=""/>
+		<input>
+			<SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+		</input>
+		<output>
+			<SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+		</output>
+	</operation>  
+<!-- ^^ Michael R Head ^^ -->
+  <operation name="receiveBase64">
+   <SOAP:operation style="rpc" soapAction=""/>
+   <input>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </input>
+   <output>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </output>
+  </operation>
+  <operation name="receiveStrings">
+   <SOAP:operation style="rpc" soapAction=""/>
+   <input>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </input>
+   <output>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </output>
+  </operation>
+  <operation name="receiveInts">
+   <SOAP:operation style="rpc" soapAction=""/>
+   <input>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </input>
+   <output>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </output>
+  </operation>
+  <operation name="receiveDoubles">
+   <SOAP:operation style="rpc" soapAction=""/>
+   <input>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </input>
+   <output>
+    <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </output>
+ </operation>
+<!-- vv Michael R Head vv -->
+<operation name="receiveSimpleEvents">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+</operation>
+<operation name="receiveMeshInterfaceObjects">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+</operation>
+<!-- ^^ Michael R Head ^^ -->
+ <operation name="sendBase64">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="sendStrings">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="sendInts">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="sendDoubles">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+   <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+<!-- vv Michael R Head vv -->
+ <operation name="sendSimpleEvents">
+   <SOAP:operation style="rpc" soapAction=""/>
+   <input>
+     <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </input>
+   <output>
+     <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+</operation>
+ <operation name="sendMeshInterfaceObjects">
+   <SOAP:operation style="rpc" soapAction=""/>
+   <input>
+     <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+   </input>
+   <output>
+     <SOAP:body use="literal" namespace="urn:Benchmark1" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+</operation>
+<!-- ^^ Michael R Head ^^ -->
+</binding>
+
+<service name="Benchmark1">
+ <documentation>definitions for performance benchmarking (symmetric tests)</documentation>
+ <port name="Benchmark1" binding="tns:Benchmark1">
+  <SOAP:address location="http://localhost:80"/>
+ </port>
+</service>
+
+</definitions>

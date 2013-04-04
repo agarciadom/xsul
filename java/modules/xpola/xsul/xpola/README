@@ -1,0 +1,103 @@
+XPOLA PROGRAMMING GUIDE
+Liang Fang (lifang@cs.indiana.edu)
+
+INTERFACES:
+
+There are three manager interfaces in XPOLA:
+* CapabilityManager: manages capability tokens.
+The interface is xsul.xpola.capman.CapabilityManager.
+
+* GroupManager: manages group information.
+The interface is xsul.xpola.groupman.GroupManager.
+
+* RequestManager: manages capability requests.
+The interface is xsul.xpola.capman.RequestManager.
+
+
+IMPLEMENTATIONS:
+
+* CapabilityManager is implemented with persistent support by
+xsul.xpola.capman.PersistentCapman.
+
+* GroupManager is implemented with persistent support by
+xsul.xpola.groupman.PersistentGroupman.
+
+* RequestManager currently shares the implementation with
+xsul.xpola.capman.PersistentCapman.
+
+
+HOW TO GET A MANAGER:
+
+The implementation of each manager is made transparent through
+xsul.xpola.XpolaFactory. The configuration is assumed with JNDI, which is
+convinient in TOMCAT. For details about how to configure TOMCAT, please refer to
+TOMCAT document, or take a look at $TOMCAT/webapps/capman/WEB-INF/web.xml and
+$TOMCAT/webapps/capman/META-INF/context.xml.
+
+If the configuation is available in JDNI context, the instance can be accessed
+directly by calling XpolaFactory.getCapman(), or XpolaFactory.getGroupman() or
+XpolaFactory.getRequestman().
+
+Otherwise, you can provide necessary database information or the location of
+capability manager service.
+
+For example:
+
+Talking to DB directly thru API:
+CapabilityManager capman =
+        XpolaFactory.getCapman(DBConnManager.HSQL,
+                "jdbc:hsqldb:hsql://k2:1888/xdb", // this one always running
+                "sa", // username
+                "")   // password
+                
+Talking to Capability Manager service instead:
+CapabilityManager capman = XpolaFactory.getCapman("http://k2:9348/capman");
+
+
+MANIPULATIING CAPABILITY TOKENS:
+
+* Creating a Capability token
+
+Explanation of the parameters for creating a capability token:
+>  _subject: the owner's distinguished name (DN)
+>  _ePR: the identifier of the web service. The latest agreement is that it
+should a QName composed of a target namespace, "http://www.extreme.indiana.edu/lead"
+by default, as well as the CWSDL name, such as "arps-trn_Fri_Apr_01_12_43_22_EST_2005".
+Use XpolaUtil.qName2URI to convert such as a QName to a valid URI string here,
+because SAML only accept a string that conforms to the URI syntax.
+>  _users: A list of users, could be either groupname or users' DNs
+>  _nspace: namespace, by default XpolaConstants.LEADNAMESPACE
+>  _actionswithdecisions: A map file with operation names as keys and decisions
+as values. It can be null if it is not required to set the operation-level
+authorization.
+>  _notbefore: the capability token is not valid before this date
+>  _notafter: the capability token is not valid after this date
+>  _cred: the owner's GlobusCredential for signing the capability token. It can
+be null if no signing is going to happen immediately
+>  _postponed: whether to sign it right now or later. "true" to postpone the
+signing while "false" means to sign it immediately.
+
+GlobusCredential cred = GlobusCredential.getDefaultCredential();
+String subject = CapabilityUtil.canonicalizeSubject(cred.getSubject());
+ePR = XpolaUtil.qNameString2URI("{http://www.extreme.indiana.edu/lead}arps_trn_Fri_Apr_01_12_43_22_EST_2005");
+groups = new Vector(Arrays.asList(new String[]{"extreme", "ncsa"}));
+Capability cap = new Capability(subject,
+                                ePR,
+                                groups,
+                                XpolaConstants.LEADNAMESPACE,
+                                null,
+                                new Date(System.currentTimeMillis()),
+                                new Date(System.currentTimeMillis() + CapConstants.DEFAULT_LIFETIME),
+                                cred,
+                                true);
+                                            
+* Serializing and deseralizing Capability tokens:
+For simplicity and compatibility, all manager interfaces use String or String
+array only. Therefore, you need to serialize and deserialize the Capability
+token. They are very easy:
+
+String capstring = cap.toString();
+Capability cap = new Capability(capstring);
+
+$Id: README,v 1.2 2005/04/09 05:43:06 lifang Exp $
+

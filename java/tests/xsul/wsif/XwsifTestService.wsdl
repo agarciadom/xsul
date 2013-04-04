@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://example.org/xwsif" xmlns:impl="http://example.org/xwsif" xmlns:intf="http://example.org/xwsif" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="http://example.org/xwsif" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:impl="http://example.org/xwsif" xmlns:intf="http://example.org/xwsif" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <element name="executeRequestResponseWsdlFault">
+    <complexType>
+     <sequence>
+      <element name="cid" nillable="true" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="executeRequestResponseWsdlFaultResponse">
+    <complexType>
+     <sequence/>
+    </complexType>
+   </element>
+   <element name="executeRequestResponse">
+    <complexType>
+     <sequence>
+      <element name="cid" nillable="true" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="executeRequestResponseResponse">
+    <complexType>
+     <sequence>
+      <element name="executeRequestResponseReturn" nillable="true" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="executeInputOnly">
+    <complexType>
+     <sequence>
+      <element name="cid" nillable="true" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="WsdlFaultAException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="WsdlFaultAException" nillable="true" type="impl:WsdlFaultAException"/>
+   <complexType name="WsdlFaultBException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="WsdlFaultBException" nillable="true" type="impl:WsdlFaultBException"/>
+   <complexType name="WsdlFaultCException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="WsdlFaultCException" nillable="true" type="impl:WsdlFaultCException"/>
+  </schema>
+  </wsdl:types>
+  <wsdl:message name="executeRequestResponseWsdlFaultRequest">
+    <wsdl:part element="impl:executeRequestResponseWsdlFault" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="WsdlFaultBException">
+    <wsdl:part element="impl:WsdlFaultBException" name="fault"/>
+  </wsdl:message>
+  <wsdl:message name="WsdlFaultAException">
+    <wsdl:part element="impl:WsdlFaultAException" name="fault"/>
+  </wsdl:message>
+  <wsdl:message name="executeRequestResponseResponse">
+    <wsdl:part element="impl:executeRequestResponseResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="executeRequestResponseWsdlFaultResponse">
+    <wsdl:part element="impl:executeRequestResponseWsdlFaultResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="executeInputOnlyRequest">
+    <wsdl:part element="impl:executeInputOnly" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="executeRequestResponseRequest">
+    <wsdl:part element="impl:executeRequestResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="WsdlFaultCException">
+    <wsdl:part element="impl:WsdlFaultCException" name="fault"/>
+  </wsdl:message>
+  <wsdl:portType name="XwsifTestService">
+    <wsdl:operation name="executeInputOnly">
+      <wsdl:input message="impl:executeInputOnlyRequest" name="executeInputOnlyRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="executeRequestResponseWsdlFault">
+      <wsdl:input message="impl:executeRequestResponseWsdlFaultRequest" name="executeRequestResponseWsdlFaultRequest"/>
+      <wsdl:output message="impl:executeRequestResponseWsdlFaultResponse" name="executeRequestResponseWsdlFaultResponse"/>
+      <wsdl:fault message="impl:WsdlFaultAException" name="WsdlFaultAException"/>
+      <wsdl:fault message="impl:WsdlFaultBException" name="WsdlFaultBException"/>
+      <wsdl:fault message="impl:WsdlFaultCException" name="WsdlFaultCException"/>
+    </wsdl:operation>
+    <wsdl:operation name="executeRequestResponse">
+      <wsdl:input message="impl:executeRequestResponseRequest" name="executeRequestResponseRequest"/>
+      <wsdl:output message="impl:executeRequestResponseResponse" name="executeRequestResponseResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="XwsifTestServiceSoapBinding" type="impl:XwsifTestService">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="executeInputOnly">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="executeInputOnlyRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="executeRequestResponseWsdlFault">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="executeRequestResponseWsdlFaultRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeRequestResponseWsdlFaultResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsdlFaultAException">
+        <wsdlsoap:fault name="WsdlFaultAException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsdlFaultBException">
+        <wsdlsoap:fault name="WsdlFaultBException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsdlFaultCException">
+        <wsdlsoap:fault name="WsdlFaultCException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="executeRequestResponse">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="executeRequestResponseRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeRequestResponseResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="XwsifTestServiceService">
+    <wsdl:port binding="impl:XwsifTestServiceSoapBinding" name="XwsifTestService">
+      <wsdlsoap:address location="http://localhost:1234/XwsifTestService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

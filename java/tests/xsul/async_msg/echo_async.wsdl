@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WSDLInteropTestDocLitService"
+    targetNamespace="http://soapinterop.org/WSDLInteropTestDocLit"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://soapinterop.org/WSDLInteropTestDocLit"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd1="http://soapinterop.org/xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+    >
+    <types>
+        <schema targetNamespace="http://soapinterop.org/xsd"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+            <element name="echoString">
+                <complexType>
+                    <sequence>
+                        <element name="param0" type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="echoStringResponse">
+                <complexType>
+                    <sequence>
+                        <element name="return" type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+    <message name="echoString">
+        <part element="xsd1:echoString" name="parameters"/>
+    </message>
+    <message name="echoStringResponse">
+        <part element="xsd1:echoStringResponse" name="parameters"/>
+    </message>
+    <portType name="WSDLInteropTestDocLitPortType">
+        <operation name="echoString">
+            <input message="tns:echoString" name="echoString"
+               wsa:Action="http://soapinterop.org/WSDLInteropTestDocLit/echoString"
+            />
+            <output message="tns:echoStringResponse" name="echoStringResponse"
+               wsa:Action="http://soapinterop.org/WSDLInteropTestDocLit/echoStringResponse"
+            />
+        </operation>
+    </portType>
+    <binding name="WSDLInteropTestDocLitPortBinding"
+        type="tns:WSDLInteropTestDocLitPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="echoString">
+            <soap:operation soapAction="http://soapinterop.org/" style="document"/>
+            <input name="echoString">
+                <soap:body use="literal"/>
+            </input>
+            <output name="echoStringResponse">
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="WSDLInteropTestDocLitService">
+        <port binding="tns:WSDLInteropTestDocLitPortBinding"
+            name="WSDLInteropTestDocLitPort">
+            <soap:address
+                location="http://www.whitemesa.net/interop/r3/doclitparam"/>
+        </port>
+    </service>
+</definitions>
+

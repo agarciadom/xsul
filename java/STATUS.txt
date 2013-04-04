@@ -1,0 +1,6 @@
+Web/XML Services Utility Library 1.0
+
+2003-3-6:
+soap11,soap12: they are not finished
+ws_addressing: needs receive and send nodes that addds WSA headers to SOAP envelope
+SSL/TLS: missing support for secure sockets

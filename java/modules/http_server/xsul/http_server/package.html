@@ -1,0 +1,28 @@
+<p>Simple HTTP Servlet Library</p>
+<p><b>Depends on modules</b>: <code>http_common</code>, <code>common</code></p>
+<p>&nbsp;</p>
+<h2>Reference card (typical usage patterns)</h2>
+<h3>Typical HTTP connection: receiving request and sending response</h3>
+<p>This library is modeled similarly to Servlets but much much simpler and gives 
+full access to underlying HTTP request/response.</p>
+<p>First create a servlet that extends class HttpMiniServlet and implements one 
+abstract method service(), for example:</p>
+<pre>
+public class XnServlet extends HttpMiniServlet {
+    public void service(HttpServerRequest req, HttpServerResponse resp) throws HttpServerException
+    {
+    }
+}
+</pre>
+<p>To have working service it is necessary to plug your&nbsp; into mini HTTP 
+server to use it:</p>
+<pre>
+        HttpMiniServer server = new HttpMiniServer(port);
+        XnServlet servlet = new XnServlet();
+        server.useServlet(servlet);
+        server.startServer();
+</pre>
+
+<p>Now examine interfaces HttpServerRequest and HttpServerResponse to see what methods are available.
+</p>
+

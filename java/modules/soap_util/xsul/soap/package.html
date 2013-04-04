@@ -1,0 +1,68 @@
+<p>SoapUtil: interface to simplify working with different versions of SOAP</p>
+<p><b>Depends on modules</b>: <code>common</code></p>
+<p>&nbsp;</p>
+
+
+<h2>Reference card (typical usage patterns)</h2>
+<h3 id="select">Select utility class to use based on SOAP version of input XML message</h3>
+<p>First declare list of SOAP version that you want supported, for example:</p>
+<pre>
+   private final static SoapUtil[] soapFragrances = // list of supported SOAP versions
+	  new SoapUtil[]{ Soap11Util.getInstance(), Soap12Util.getInstance() };
+</pre>
+
+
+<p>Then take root XML element of message and test 
+</p>
+<pre>
+   SoapUtil soapUtil = SoapUtil.selectSoapFragrance(root, soapFragrances);
+</pre>
+
+<p>If XML message has no SOAP supported version then exception UnsupportedSoapVersion is thrown
+(so you may want to catch it!).
+</p>
+
+<p id="util">Now one can use all methods from SoapUtil on <code>soapUtil</code> and manipulate SOAP message.
+</p>
+
+<h3>Generate SOAP fault output message in SOAP version corresponding to input 
+SOAP message</h3>
+<p>Use one of generate*Fault messages in utility class to create a new SOAP 
+fault message:</p>
+<pre>
+ XmlElement faultMsg = soapUtil.generateSoapServerFault(
+    &quot;Exception when processing method &quot;+methodName+&quot;: &quot;+sw.toString(),ex);
+
+</pre>
+
+
+<h3>Wrap message in SOAP Body for for some version of SOAP</h3>
+<p>Decide which version of SOAP to use either by detecting version of input 
+message (see above) or ontainign SOAP utility class for some version, for 
+example:</p>
+<pre>
+ SoapUtil soapUtil = Soap12Util.getInstance();
+</pre>
+
+
+<p>Then wrap XML content into SOAP Body:</p>
+<pre>
+  XmlElement responseMessage = ...;
+  XmlDocument responseDoc = soapUtil.wrapBodyContent(responseMessage);
+</pre>
+<h3>Extract content of SOAP Body</h3>
+<p>To extract message from inside SOAP Body:</p>
+<pre>
+  XmlElement message = soapUtil.requiredBodyContent(xmlDocument);
+  XmlElement message = soapUtil.requiredBodyContent(messageRootEl);
+</pre>
+<p><b>NOTE</b>: This operation is exact opposite to wrapping i.e:</p>
+<pre>
+  XmlElement el == soapUtil.wrapBodyContent(soapUtil.requiredBodyContent(el));
+</pre>
+
+
+
+
+
+

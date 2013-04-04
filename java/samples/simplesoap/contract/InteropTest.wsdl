@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions name="InteropTest" 
+targetNamespace="http://soapinterop.org/" 
+xmlns="http://schemas.xmlsoap.org/wsdl/" 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 
+xmlns:tns="http://soapinterop.org/" xmlns:s="http://soapinterop.org/xsd" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+
+	<message name="echoStringRequest">
+		<part name="inputString" type="xsd:string"/>
+	</message>
+	<message name="echoStringResponse">
+		<part name="return" type="xsd:string"/>
+	</message>
+
+	<portType name="InteropTestPortType">
+		<operation name="echoString" parameterOrder="inputString">
+			<input message="tns:echoStringRequest"/>
+			<output message="tns:echoStringResponse"/>
+		</operation>
+	</portType>
+
+	<binding name="InteropTestSoapBinding" type="tns:InteropTestPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="echoString">
+			<soap:operation soapAction="http://soapinterop.org/"/>
+			<input>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" 
+				  encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://soapinterop.org/" 
+				   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</output>
+		</operation>
+	</binding>
+
+	<service name="interopLab">
+  		<port name="interopTestPort" binding="tns:InteropTestSoapBinding">
+    			<soap:address location="http://www.extreme.indiana.edu:1568/"/>
+  		</port>
+	</service>
+
+</definitions>

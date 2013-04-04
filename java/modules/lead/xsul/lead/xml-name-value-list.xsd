@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<schema
+    targetNamespace="http://lead.extreme.indiana.edu/namespaces/2006/06/xml-name-value-list/"
+    xmlns:xnvl="http://lead.extreme.indiana.edu/namespaces/2006/06/xml-name-value-list/"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    attributeFormDefault="unqualified"
+    elementFormDefault="unqualified">
+
+    <complexType name="XmlNameValueList">
+      <annotation><documentation xml:lang="en">
+        List of elements each containing string.
+      </documentation></annotation>
+
+        <sequence>
+          <any namespace="##any" minOccurs="0"/>
+        </sequence>
+
+    </complexType>
+
+</schema>
+

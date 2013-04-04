@@ -1,0 +1,140 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <title>XSUL Documentation</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Aleksander Slominski">
+</head>
+<body bgcolor="white">
+
+<h1>Web / XML Services Utility Library 1.1 </h1>
+
+<h2>Quick introduction</h2>
+
+<p>
+This is a research vehicle to get a set of modules that are easy 
+to assemble to create 
+Web XML based services.</p>
+
+<p>
+However as this <strong>is</strong> research project so it is changing and backward compatibility 
+is not top priority. Still you have source code and can keep it :-)
+
+</p>
+<p>
+That means that users input is very important and can very much
+shape where this library is going to make it <b>utility</b> library you use:
+<a href="http://www.extreme.indiana.edu/xgws/xsul/">http://www.extreme.indiana.edu/xgws/xsul/</a>
+
+</p>
+<p>
+&nbsp;</p>
+
+<h2>How to get started</h2>
+
+<p>Build: ant<p>Clean build: ant all<p>Run sample: first set your CLASSPATH<br>
+(t)csh: <code>source classpath.csh</code><br>
+bash: <code>source classpath.sh</code><br>
+Windows: <code>classpath.bat</code><p>When CLASSPATH is set we can run one of samples, the 
+simplest will start in-process service (mini HTTP server), call it few times to 
+say hello, and quit (examine source code in src/samples). Try java 
+xsul_sample_hello.Run<p>To see debug output use logger: 
+<ul>
+	<li>sample related logging output: java -Dlog=xsul_sample_hello:ALL 
+	xsul_sample_hello.Run </li>
+	<li>WS/XSUL runtime and sample logging: java -Dlog=xsul:ALL,xsul_sample_hello:ALL 
+	xsul_sample_hello.Run </li>
+	<li>all logging (LOT OF OUTPUT!): java -Dlog=:ALL xsul_sample_hello.Run</li>
+</ul>
+<p>Then make sure to read <a href="doc/user_guide.html">User's Guide</a> and
+<a href="doc/changes.html">list of changes</a>.<h2>Modules</h2>
+<ul>
+	<li><b>common</b> (no dependencies except for XML pull parsing API - currently uses 
+	XPP3/XB1 for XML Infoset API)</li>
+	<li><b>http_client</b> (depends on common)<br>
+	- provides basic HTTP 1.x client side support with simple HTTP connection 
+	manager</li>
+	<li><b>http_server</b> (depends on common)<br>
+	- provide basic HTTP 1.x server side support with simplified Servlet-like 
+	API</li>
+	<li><b>invoker</b>* (depends on http_client)<br>
+	- allows simple invocation of service by sending XML on top of HTTP</li>
+	<li><b>processor</b>* (depends on http_server)<br>
+	- provides basic support for processing incoming XML over HTTP</li>
+	<li><b>dsig_globus</b> (depends on common and security jar file from lib/dsig*)<br>
+	- provides XML digital signature and limited WS SEC support using Globus 
+	Toolkit 3 grid proxy certificates</li>
+	<li><b>soap_util</b>, <b>soap11_util</b> and <b>soap12_util</b> - set of utility classes to 
+	facilitate manipulating <br>
+	both SOAP 1.1 and 1.2 messages </li>
+	<li><b>soap11</b>, <b>soap12</b>, <b>soap_factory</b>: set of nice interfaces to manipulate SOAP 
+	messages<br>
+	independent of SOAP version (1.1/1.2) in OO way that allows extensibility</li>
+	<li><b>epr_router</b> (depends on rpc, XmlBeans: lib/xbeans)<br>
+	- Routes incoming messages based on WSA EPR to specific XBeans document 
+	dispatcher</li>
+	<li><b>xbeans_document_dispatcher</b> (depends on rpc, lib/xbeans)<br>
+	- Dispatches messages with specific QName to a mapped method in a java 
+	target. Mapped<br>
+	methods can have XmlElement or XmlBean Object as parameter and response 
+	docs.</li>
+	<li><b>xbeans_document_invoker</b> (depends on rpc, lib/xbeans)<br>
+	- invokes a method in remote service using doc style invocation, taking and 
+	returning XmlObjects.</li>
+	<li><b>xbeans_type_handler</b> (rpc, lib/xbeans)<br>
+	- serializes and deserializes XmlBean objects</li>
+	<li><b>xwsdl</b> small footprint WSDL impl<br>
+	- lightweight API to work with WSDL 1.1</li>
+	<li><b>xwsif</b>* (depends on xwsdl) dynamic invocations using WSDL<br>
+	- recasting of <a href="http://ws.apache.org/wsif/">Apache WSIF 2.0</a> 
+	interfaces to use xwsdl</li>
+	<li><b>xwsif_provider_xsul</b>* (depends on xwsdl and invoker)<br>
+&nbsp;</li>
+</ul>
+
+<h2>Future modules</h2>
+<p>WS-RM</p>
+<p>SOAP 1.1 Section 5 encoding (de)serialization support (MAYBE?!)</p>
+<p>add support for httpg:// based on CoG</p>
+<p>try to make easy to adapt WSS4J (and check that AXIS JAR is not required ...)</p>
+<p>http_*: use chunked encoding to improve &quot;streamability&quot; and then support 
+HTTP/1.1</p>
+<p align="left">
+Add JCE SSL client/server socket factory pluggable into http_*<p>&nbsp;</p>
+<h2>More questions</h2>
+
+<p>If you have a question
+<!--please check first <a href="doc/faq.html">XPP3 FAQ</a> 
+and if your question is unanswered --> 
+please post it to
+<a href="http://www.extreme.indiana.edu/soap/xpp/#mail">mailing list</a>.<p>
+WS/XSUL&nbsp; is distributed under <a href="../LICENSE.txt">Apache-style license</a> - 
+please read it and give us credit when you find WS/XSUL useful (we always 
+appreciate to hear from happy users and that helps us to keep working and 
+improving!!!)<p>Finally if you are interested in WS/XSUL latest developments please 
+see <a href="doc/changes.html">list of changes</a>.<p align="left">
+For the latest version and more information please see:
+<a href="http://www.extreme.indiana.edu/xgws/xsul/">WS/XSUL Home Page</a>.
+
+
+
+<h2>Acknowledgment</h2>
+
+<p>This software includes software developed by the  
+<a href="http://www.apache.org/">Apache Software Foundation</a>
+and the 
+<a href="http://www.globus.org/">Globus Alliance</a>. 
+
+In particular dsig_globus module contains source code taken from Globus GT3 
+(mainly org.globus.ogsa.impl.security.authentication.wssec package) and some 
+utility classes required by GT3 from Apache AXIS&nbsp; (from 
+org.apache.axis.utils package). For detailed list of used JAR files (and 
+associated licenses) please see content of <a href="lib">lib directory</a>.<p>&nbsp;<HR>
+
+
+<address><a href="http://www.extreme.indiana.edu/~aslom/">Aleksander Slominski</a><address>
+
+<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;
+</address>
+</body>
+</html>

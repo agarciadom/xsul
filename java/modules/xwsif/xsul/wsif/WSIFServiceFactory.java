@@ -1,0 +1,263 @@
+/* -*- mode: Java; c-basic-offset: 4; indent-tabs-mode: nil; -*-  //------100-columns-wide------>|*/
+/*
+ * Indiana University Extreme! Lab Software License, Version 1.2
+ *
+ * Copyright (c) 2002-2004 The Trustees of Indiana University.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * 1) All redistributions of source code must retain the above
+ *    copyright notice, the list of authors in the original source
+ *    code, this list of conditions and the disclaimer listed in this
+ *    license;
+ *
+ * 2) All redistributions in binary form must reproduce the above
+ *    copyright notice, this list of conditions and the disclaimer
+ *    listed in this license in the documentation and/or other
+ *    materials provided with the distribution;
+ *
+ * 3) Any documentation included with all redistributions must include
+ *    the following acknowledgement:
+ *
+ *      "This product includes software developed by the Indiana
+ *      University Extreme! Lab.  For further information please visit
+ *      http://www.extreme.indiana.edu/"
+ *
+ *    Alternatively, this acknowledgment may appear in the software
+ *    itself, and wherever such third-party acknowledgments normally
+ *    appear.
+ *
+ * 4) The name "Indiana University" or "Indiana University
+ *    Extreme! Lab" shall not be used to endorse or promote
+ *    products derived from this software without prior written
+ *    permission from Indiana University.  For written permission,
+ *    please contact http://www.extreme.indiana.edu/.
+ *
+ * 5) Products derived from this software may not use "Indiana
+ *    University" name nor may "Indiana University" appear in their name,
+ *    without prior written permission of the Indiana University.
+ *
+ * Indiana University provides no reassurances that the source code
+ * provided does not infringe the patent or any other intellectual
+ * property rights of any other entity.  Indiana University disclaims any
+ * liability to any recipient for claims brought by any other entity
+ * based on infringement of intellectual property rights or otherwise.
+ *
+ * LICENSEE UNDERSTANDS THAT SOFTWARE IS PROVIDED "AS IS" FOR WHICH
+ * NO WARRANTIES AS TO CAPABILITIES OR ACCURACY ARE MADE. INDIANA
+ * UNIVERSITY GIVES NO WARRANTIES AND MAKES NO REPRESENTATION THAT
+ * SOFTWARE IS FREE OF INFRINGEMENT OF THIRD PARTY PATENT, COPYRIGHT, OR
+ * OTHER PROPRIETARY RIGHTS.  INDIANA UNIVERSITY MAKES NO WARRANTIES THAT
+ * SOFTWARE IS FREE FROM "BUGS", "VIRUSES", "TROJAN HORSES", "TRAP
+ * DOORS", "WORMS", OR OTHER HARMFUL CODE.  LICENSEE ASSUMES THE ENTIRE
+ * RISK AS TO THE PERFORMANCE OF SOFTWARE AND/OR ASSOCIATED MATERIALS,
+ * AND TO THE PERFORMANCE AND VALIDITY OF INFORMATION GENERATED USING
+ * SOFTWARE.
+ */
+/*
+ * The Apache Software License, Version 1.1
+ *
+ *
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. The end-user documentation included with the redistribution,
+ *    if any, must include the following acknowledgment:
+ *       "This product includes software developed by the
+ *        Apache Software Foundation (http://www.apache.org/)."
+ *    Alternately, this acknowledgment may appear in the software itself,
+ *    if and wherever such third-party acknowledgments normally appear.
+ *
+ * 4. The names "WSIF" and "Apache Software Foundation" must
+ *    not be used to endorse or promote products derived from this
+ *    software without prior written permission. For written
+ *    permission, please contact apache@apache.org.
+ *
+ * 5. Products derived from this software may not be called "Apache",
+ *    nor may "Apache" appear in their name, without prior written
+ *    permission of the Apache Software Foundation.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Apache Software Foundation and was
+ * originally based on software copyright (c) 2001, 2002, International
+ * Business Machines, Inc., http://www.ibm.com.  For more
+ * information on the Apache Software Foundation, please see
+ * <http://www.apache.org/>.
+ */
+
+package xsul.wsif;
+
+import xsul.wsdl.WsdlDefinitions;
+import xsul.wsdl.WsdlPortType;
+import xsul.wsdl.WsdlService;
+import xsul.wsif.impl.WSIFServiceFactoryImpl;
+//import org.apache.wsif.util.WSIFUtils;
+
+/**
+ * Abstract factory class to create instances of WSIFService. Call newInstance
+ * to get a instance of the factory.
+ *
+ * <br />Note: this API is based on <a href="http://ws.apache.org/wsif/">Apache WSIF API</a>.
+ *
+ * @author <a href="http://www.extreme.indiana.edu/~aslom/">Aleksander Slominski</a>
+ * @author Mark Whitlock
+ * @author Owen Burroughs
+ */
+public abstract class WSIFServiceFactory {
+
+    /**
+     * Creates a new instance of an implementation the abstract
+     * WSIFServiceFactory class.
+     */
+    public static WSIFServiceFactory newInstance() {
+
+        WSIFServiceFactoryImpl wsf = new WSIFServiceFactoryImpl();
+
+        // Create the simple types map for use by other WSIF classes
+        //WSIFUtils.createSimpleTypesMap();
+
+        return wsf;
+    }
+
+    /**
+     * Create a WSIFService from WSDL document URL.
+     * <br> If serviceName or serviceNS is null,
+     *   then WSDL document must have exactly one service in it.
+     * <br> If portTypeName or portTypeNS is null,
+     *   then WSDL document must have exactly one portType in it
+     *   and all ports of the selected service must
+     *    implement the same portType.
+     */
+    public abstract WSIFService getService(
+        String wsdlLoc,
+        String serviceNS,
+        String serviceName,
+        String portTypeNS,
+        String portTypeName)
+        throws WSIFException;
+
+//    /**
+//     * Create a WSIF service instance from WSDL document URL
+//     * using a ClassLoader to find local resources.
+//     * <br> If serviceName or serviceNS is null,
+//     *   then WSDL document must have exactly one service in it.
+//     * <br> If portTypeName or portTypeNS is null,
+//     *   then WSDL document must have exactly one portType in it
+//     *   and all ports of the selected service must
+//     *    implement the same portType.
+//     */
+//    public abstract WSIFService getService(
+//        String wsdlLoc,
+//        ClassLoader cl,
+//        String serviceNS,
+//        String serviceName,
+//        String portTypeNS,
+//        String portTypeName)
+//        throws WSIFException;
+//
+    /**
+     * Returns a new WSIFService.
+     */
+    public abstract WSIFService getService(WsdlDefinitions def)
+        throws WSIFException;
+//
+//    /**
+//     * Returns a new WSIFService.
+//     */
+//    public abstract WSIFService getService(WsdlDefinitions def, WsdlService service)
+//        throws WSIFException;
+
+    /**
+     * Returns a new WSIFService.
+     */
+    public abstract WSIFService getService(
+        WsdlDefinitions def,
+        WsdlService service,
+        WsdlPortType portType)
+        throws WSIFException;
+
+//    /**
+//     * Returns a new WSIFService.
+//     */
+//    public abstract WSIFService getService(
+//        WsdlDefinitions def,
+//        String serviceNS,
+//        String serviceName,
+//        String portTypeNS,
+//        String portTypeName)
+//        throws WSIFException;
+
+//    /**
+//     * Set caching on services on/off. Off is the default
+//     * @param on Flag to indicate whether or not caching of services should be used
+//     * @deprecated Use <code>setFeature(WSIFConstants.WSIF_FEATURE_SERVICE_CACHING, new Boolean(true))</code>
+//     * or <code>setFeature(WSIFConstants.WSIF_FEATURE_SERVICE_CACHING, new Boolean(false))</code> instead
+//     */
+//    public void cachingOn(boolean on) {
+//    }
+//
+//    /**
+//     * Set a feature on the WSIFServiceFactory. The names of supported features are stored as constants
+//     * in the {@link WSIFConstants} class. The names of these constants have a convention of starting
+//     * <code>WSIF_FEATURE_</code>.
+//     * For more information about individual features, see the field details for the feature constants.
+//     * <br><br><b>Note:</b> features should be set before calls to the getService methods.<br>
+//     * @param name The name of the feature to set
+//     * @param value The value of the feature
+//     */
+//    public abstract void setFeature(String name, Object value);
+//
+//    /**
+//     * Set features on the WSIFServiceFactory. Calling this method will replace the currently set features
+//     * with those configured in the Map passed in.
+//     * The names of supported features are stored as constants
+//     * in the {@link WSIFConstants} class. The names of these constants have a convention of starting
+//     * <code>WSIF_FEATURE_</code>.
+//     * For more information about individual features, see the field details for the feature constants.
+//     * <br><br><b>Note:</b> features should be set before calls to the getService methods.<br>
+//     * @param map A Map containing all the features to set on the factory
+//     */
+//    public abstract void setFeatures(Map map);
+//
+//    /**
+//     * Get the map of features currently being used by the factory.
+//     * @return The map of features
+//     */
+//    public abstract Map getFeatures();
+//
+//    /**
+//     * Get the value for a feature currently being used by the factory.
+//     * @return The feature value
+//     */
+//    public abstract Object getFeature(String name);
+}
+

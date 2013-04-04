@@ -1,0 +1,55 @@
+<html>
+<body>
+This module provides a simple implementation of WS-Addressing.
+
+<p>
+Provided are get/set methods to access headers defined in WS-Addressing.
+</p>
+
+
+<p><b>Depends on modules</b>:
+<code>common</code>
+<code>invoker</code>
+<code>processor</code>
+<code>soap*</code>
+</p>
+
+<p>&nbsp;</p>
+
+
+<h2>Reference card (typical usage patterns)</h2>
+
+<h3>Access WS-Addressing data (Message Information Headers) from SOAP message</h3>
+
+<p>To access WSA headers simpley wrap SOAP Envelope (or SOAP Header) element
+in WsaMessageInformationHeaders class and use its set/get methods to modify SOAP message content.
+Example:
+</p>
+<pre>
+        WsaMessageInformationHeaders inHeaders = new WsaMessageInformationHeaders(envelope);
+        XmlElement outMessageEnvelope;
+        try {
+          outMessageEnvelope = envelope.clone();
+        } catch (CloneNotSupportedException e) {
+          throw new XsulException("internal error: could not clone message");
+        }
+        WsaMessageInformationHeaders outHeaders = new WsaMessageInformationHeaders(outMessageEnvelope);
+        inHeaders.getTo();
+        inHeaders.getReplyTo().getAddress();
+        inHeaders.getFaultTo().getAddress();
+        WsaRelatesTo relates = (WsaRelatesTo) inHeaders.getRelatesTo().iterator().next(); //if any ...
+        relates.getRelationship();
+        relates.getRelationshipType();
+        inHeaders.getAction();
+        URI messageId = inHeaders.getMessageId();
+        if(messageId != null) {
+          outHeaders.addRelatesTo(new WsaRelatesTo(messageId));
+        }
+        outHeaders.setAction(respAction);
+        outHeaders.setTo(WsAddressing.ROLE_ANONYMOUS_URI);
+        outHeaders.setFrom(new WsaEndpointReference(serviceLocation));
+</pre>
+
+
+</body>
+</html>

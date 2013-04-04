@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Requestman"
+  targetNamespace="http://www.extreme.indiana.edu/xsul/xpola/requestman/"
+  xmlns:wsdlns="http://www.extreme.indiana.edu/xsul/xpola/requestman/"
+  xmlns:typens="http://www.extreme.indiana.edu/xsul/xpola/requestman/xsd"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <schema targetNamespace="http://www.extreme.indiana.edu/xsul/xpola/requestman/xsd"
+      xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+      <annotation><documentation xml:lang="en">
+       This XML schema is an example showing how to define input message with
+       set of parameters and how to define output message with results.
+       NOTE: this schema uses default value for some parameters but support
+       for it depends on how much of XML Schemas is supported by WS client software.
+      </documentation></annotation>
+      <complexType name='SequenceOfString'>
+        <sequence>
+          <element name='item' type='xsd:string' maxOccurs='unbounded'/>
+        </sequence>
+      </complexType>
+
+      <element name="RegisterRequestIn">
+        <complexType>
+          <sequence>
+            <element name='arequest' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RegisterRequestOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+      
+      <element name="GetRequestByIdIn">
+        <complexType>
+          <sequence>
+            <element name='id' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetRequestByIdOut">
+        <complexType>
+          <sequence>
+            <element name='arequest' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="GetRequestsByIssuerIn">
+        <complexType>
+          <sequence>
+            <element name='issuer' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetRequestsByIssuerOut">
+        <complexType>
+          <sequence>
+            <element name='requests' type='typens:SequenceOfString' />
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="GetRequestsByReceiverIn">
+        <complexType>
+          <sequence>
+            <element name='receiver' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetRequestsByReceiverOut">
+        <complexType>
+          <sequence>
+            <element name='requests' type='typens:SequenceOfString' />
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="ResponseToRequestIn">
+        <complexType>
+          <sequence>
+            <element name='aresponse' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ResponseToRequestOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+
+      <element name="RemoveRequestByIdIn">
+        <complexType>
+          <sequence>
+            <element name='id' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveRequestByIdOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+      
+      <element name="RemoveRequestsByIssuerIn">
+        <complexType>
+          <sequence>
+            <element name='issuer' type='xsd:string' />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="RemoveRequestsByIssuerOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+      </element>
+
+     </schema>
+    </types>
+        
+    <message name="RegisterRequest">
+      <part name="parameters" element="typens:RegisterRequestIn"/>
+    </message>
+    <message name="RegisterRequestResponse">
+      <part name="parameters" element="typens:RegisterRequestOut"/>
+    </message>
+    <message name="GetRequestById">
+      <part name="parameters" element="typens:GetRequestByIdIn"/>
+    </message>
+    <message name="GetRequestByIdResponse">
+      <part name="parameters" element="typens:GetRequestByIdOut"/>
+    </message>
+    <message name="GetRequestsByIssuer">
+      <part name="parameters" element="typens:GetRequestsByIssuerIn"/>
+    </message>
+    <message name="GetRequestsByIssuerResponse">
+      <part name="parameters" element="typens:GetRequestsByIssuerOut"/>
+    </message>
+    <message name="GetRequestsByReceiver">
+      <part name="parameters" element="typens:GetRequestsByReceiverIn"/>
+    </message>
+    <message name="GetRequestsByReceiverResponse">
+      <part name="parameters" element="typens:GetRequestsByReceiverOut"/>
+    </message>
+    <message name="ResponseToRequest">
+      <part name="parameters" element="typens:ResponseToRequestIn"/>
+    </message>
+    <message name="ResponseToRequestResponse">
+      <part name="parameters" element="typens:ResponseToRequestOut"/>
+    </message>
+    <message name="RemoveRequestById">
+      <part name="parameters" element="typens:RemoveRequestByIdIn"/>
+    </message>
+    <message name="RemoveRequestByIdResponse">
+      <part name="parameters" element="typens:RemoveRequestByIdOut"/>
+    </message>
+    <message name="RemoveRequestsByIssuer">
+      <part name="parameters" element="typens:RemoveRequestsByIssuerIn"/>
+    </message>
+    <message name="RemoveRequestsByIssuerResponse">
+      <part name="parameters" element="typens:RemoveRequestsByIssuerOut"/>
+    </message>
+    
+    <portType name="RequestmanPortType">
+      <operation name="registerRequest">
+        <input message="wsdlns:RegisterRequest"/>
+        <output message="wsdlns:RegisterRequestResponse"/>
+      </operation>
+      <operation name="getRequestById">
+        <input message="wsdlns:GetRequestById"/>
+        <output message="wsdlns:GetRequestByIdResponse"/>
+      </operation>
+      <operation name="getRequestsByIssuer">
+        <input message="wsdlns:GetRequestsByIssuer"/>
+        <output message="wsdlns:GetRequestsByIssuerResponse"/>
+      </operation>
+      <operation name="getRequestsByReceiver">
+        <input message="wsdlns:GetRequestsByReceiver"/>
+        <output message="wsdlns:GetRequestsByReceiverResponse"/>
+      </operation>
+      <operation name="responseToRequest">
+        <input message="wsdlns:ResponseToRequest"/>
+        <output message="wsdlns:ResponseToRequestResponse"/>
+      </operation>
+      <operation name="removeRequestById">
+        <input message="wsdlns:RemoveRequestById"/>
+        <output message="wsdlns:RemoveRequestByIdResponse"/>
+      </operation>
+      <operation name="removeRequestsByIssuer">
+        <input message="wsdlns:RemoveRequestsByIssuer"/>
+        <output message="wsdlns:RemoveRequestsByIssuerResponse"/>
+      </operation>
+    </portType>
+    
+    <binding name="RequestmanBinding" type="wsdlns:RequestmanPortType">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <operation name="registerRequest">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/requestman/registerRequest"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getRequestById">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/requestman/getRequestById"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getRequestsByIssuer">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/requestman/getRequestsByIssuer"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="getRequestsByReceiver">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/requestman/getRequestsByReceiver"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="responseToRequest">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/requestman/responseToRequest"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="removeRequestById">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/requestman/removeRequestById"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+      <operation name="removeRequestsByIssuer">
+        <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/requestman/removeRequestsByIssuer"/>
+        <input>
+          <soap:body use="literal"/>
+        </input>
+        <output>
+          <soap:body use="literal"/>
+        </output>
+      </operation>
+    </binding>
+    
+    <service name="RequestmanService">
+      <documentation>Capability Manager Service</documentation>
+      <port name="RequestmanPort" binding="wsdlns:RequestmanBinding">
+        <soap:address location="http://www.extreme.indiana.edu/xsul/requestman/endpoint"/>
+      </port>
+    </service>
+    
+</definitions>
+

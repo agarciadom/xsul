@@ -1,0 +1,67 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html">
+</head>
+<body bgcolor="#FFFFFF">
+<p>This sample demonstrates WSDL "contract first" approach to accessing and creating Web Services.
+</p>
+
+<h3>Contract: WSDL</h3>
+
+<p>
+First WSDL file needs to be created or obtained from repository.
+We used well known
+<a href="http://live.capescience.com/wsdl/GlobalWeather.wsdl">
+global weather sample</a> found in
+<a href="http://www.capescience.com/webservices/globalweather/">
+CapeScience</a>.
+</p>
+
+
+<h3>Client side</h4>
+
+<h4>Dynamic Invocations</h4>
+
+<p>
+WSDL file may be used directly theough Super Dynamic Invoker that
+allows to invoke service described in WSDL without need to generate Java stub.
+Example (before running make sure to set CLASSPATH by using classpath.[sh|bat]):
+</p>
+
+<pre>java [-Ddebug] xsul_dii.XsulDynamicInvoker samples/simplesoap/contract/GlobalWeather.wsdl  {GlobalWeather}getWeatherReport JFK
+</pre>
+
+<h4>Invocations using stub (RPC style)</h4>
+
+<p>
+To allow more type-safe invocations Java interface needs to be generated:
+WSDL file is compiled by <samp>xwsldc</samp> to generate Java interface.
+This interface then can be used to create stub to interact with remote service.
+</p>
+
+
+<h4>Invocations using stub (MSG style)</h4>
+
+<p>
+Generated stub allows to send XML Infoset representing message
+(using XB1,DOM API, or any other XML API with additional transformations).
+
+</p>
+
+
+<h3>Server side</h4>
+
+<h4>Implementing interface RPC style</h4>
+
+
+<h4>Implementing interface MSG style</h4>
+
+<p>&nbsp;</p>
+<address><a href="http://www.extreme.indiana.edu/~aslom/">Aleksander Slominski</a></address>
+<br />
+<!-- Created: Thu Apr  14 18:21:21 EST 2000 -->
+Last modified: $Id: package.html,v 1.1 2005/01/04 15:36:39 aslom Exp $
+
+</body>
+</html>

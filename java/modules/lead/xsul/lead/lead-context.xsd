@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<schema
+    targetNamespace="http://lead.extreme.indiana.edu/namespaces/2005/10/lead-context-header"
+    xmlns:lead="http://lead.extreme.indiana.edu/namespaces/2005/10/lead-context-header"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    attributeFormDefault="qualified"
+    elementFormDefault="qualified">
+
+    <element name="experiment-id" type="anyURI">
+      <annotation><documentation xml:lang="en">
+        Experiment ID. (REQUIRED in context)
+      </documentation></annotation>
+    </element>
+
+    <element name="workflow-instance-id" type="anyURI">
+      <annotation><documentation xml:lang="en">
+        URI that identifies workflow instance that originated that message. (optional)
+      </documentation></annotation>
+    </element>
+
+    <element name="workflow-node-id" type="string">
+      <annotation><documentation xml:lang="en">
+        String that identifies uniqueley a node in workflow graph that originated that message. (optional)
+      </documentation></annotation>
+    </element>
+
+    <element name="workflow-time-step" type="int">
+      <annotation><documentation xml:lang="en">
+        Increasing integer representing time in the workflow execution when the message originated. (optional)
+      </documentation></annotation>
+    </element>
+
+    <element name="service-instance-id" type="anyURI">
+      <annotation><documentation xml:lang="en">
+        URI that identifies service instance that originated that message. (optional)
+      </documentation></annotation>
+    </element>
+
+    <element name="gfac-url" type="anyURI">
+      <annotation><documentation xml:lang="en">
+        Location of GFac factory service to use. (optional)
+      </documentation></annotation>
+    </element>
+
+    <element name="resource-catalog-url" type="anyURI">
+      <annotation><documentation xml:lang="en">
+        Location of Rescat service to use. (optional)
+      </documentation></annotation>
+    </element>
+
+
+    <element name="properties-file-url" type="anyURI">
+      <annotation><documentation xml:lang="en">
+        Location of properties file used by some of LEAD services to override namelist defaults. (optional)
+      </documentation></annotation>
+    </element>
+
+    <element name="event-sink-epr">
+      <annotation><documentation xml:lang="en">
+        EPR for WS-Eventing sink where to send event.  (optional)
+        NOTE: currently any XML is accepted as there are many versions of WS-Addressing.
+      </documentation></annotation>
+      <complexType>
+        <sequence>
+          <any namespace="##any" minOccurs="0"/>
+        </sequence>
+      </complexType>
+    </element>
+
+    <element name="user-dn" type="string">
+      <annotation><documentation xml:lang="en">
+        String that identifies user running this experiment. (REQUIRED in context
+      </documentation></annotation>
+    </element>
+
+    <element name="context">
+      <annotation><documentation xml:lang="en">
+        Element that contains LEAD specific context information sent as a SOAP header in a SOAP message.
+      </documentation></annotation>
+      <complexType>
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" ref="lead:experiment-id"/>
+          <element minOccurs="0" maxOccurs="1" ref="lead:workflow-instance-id"/>
+          <element minOccurs="0" maxOccurs="1" ref="lead:workflow-node-id"/>
+          <element minOccurs="0" maxOccurs="1" ref="lead:workflow-time-step"/>
+          <element minOccurs="0" maxOccurs="1" ref="lead:service-instance-id"/>
+          <element minOccurs="0" maxOccurs="1" ref="lead:gfac-url"/>
+          <element minOccurs="0" maxOccurs="1" ref="lead:resource-catalog-url"/>
+          <element minOccurs="0" maxOccurs="1" ref="lead:event-sink-epr"/>
+          <!-- this is required element to make open content model works!!!! -->
+          <!-- for description see: -->
+          <!-- http://www.xfront.com/ExtensibleContentModels.html -->
+          <!-- http://www.xml.com/lpt/a/2002/07/03/schema_design.html -->
+          <element minOccurs="1" maxOccurs="1" ref="lead:user-dn"/>
+          <any namespace="##any" minOccurs="0"/>
+<!--          <any namespace="##targetNamespace" processContents="strict"
+             minOccurs="0" maxOccurs="unbounded" />
+          <any namespace="##other" processContents="lax" minOccurs="0"
+            maxOccurs="unbounded" />
+-->
+        </sequence>
+      </complexType>
+   </element>
+</schema>
+

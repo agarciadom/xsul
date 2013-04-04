@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>XSUL User Guide</title>
+</head>
+
+<body bgcolor="white">
+
+<h1>WSUL/XSUL User Guide</h1>
+
+<h2>What is it?</h2>
+<p>The purpose of this document is to explain concepts behind XSUL and give you
+enough to use XSUL in your applications.</p>
+<p>XSUL stands for &quot;WS/XML Utility Library&quot;. Instead of creating one all
+encompassing architecture XSUL is striving to provide set of tools. Great deal
+of effort went to make sure that tools are compatible and easy to plug together. </p>
+
+<p>The glue that binds all tools in XSUL is
+<a href="http://www.w3.org/TR/xml-infoset/">XML Infoset</a> based API called
+<a href="http://www.extreme.indiana.edu/xgws/xsoap/xpp/xb1/">XB1 (XML Pull
+Builder)</a>. </p>
+
+<p>XSUL tools are called modules and each module provides one simple function or
+is an abstraction or a tool used by other modules.</p>
+
+<p>Important part of XSUL design is to enable easy building of Web Services. To
+this extent XSUL supports
+<a href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/">SOAP 1.1</a> and
+<a href="http://www.w3.org/TR/soap12-part1/">SOAP 1.2</a> providing set of handy
+utility classes to work with SOAP messages irrelevant of SOAP version. </p>
+
+<p>As most of current Web Services are using HTTP therefore XSUL has small and
+simple to use HTTP client and server implementations.</p>
+
+<p>&nbsp;</p>
+
+
+<h2>Zen of XSUL</h2>
+
+<p>Zen of XSUL is XML Infoset. So go and read first XML Information Set </p>
+
+<p align="left">Le me repeat this: <b>read</b>
+<a href="http://www.w3.org/TR/2001/REC-xml-infoset-20011024/">XML Infoset spec</a>, to get feeling of it, contemplate on it, and see all
+XML in this light :-)</p>
+
+<p>XSUL uses XB1 from XPP3. It is a straightforward translation of XML Infoset
+into Java API.</p>
+
+<p>When you know this everything else in XSUL is just set of modules to send or
+received XML Infoset as SOAP or XML messages and transform XML Infoset. As part
+of transformation to work with other libraries it may be necessary to transform
+XML Infoset into DOM API and extensive support for it is provided (for example
+in case when using existing XML digital signature libraries that work with DOM
+as input and output).</p>
+<p>&nbsp;</p>
+
+
+<h2> Working With XML Messages</h2>
+
+<p> In XSUL there are three different levels on which one can work with XML
+messages:</p>
+<ul>
+	<li><b>Application Level</b>: <i>XmlElement message</i>
+	(invoker/MessageInvoker, processor/MessageProcessor)<br>
+	This is actual XML element that has content of XML message that needs to be
+	sent or processed.<br>
+	On this level there is no need to worry about SOAP header, transport header,
+	etc. - just application logic.</li>
+	<li><b>XML Messaging/Routing Level</b>: <i>XmlDocument doc</i>
+	(invoker/DynamicInfosetInvoker, processor/DynamicInfosetProcessor)<br>
+	Whole XML document is received and processed - this level is good to do XML
+	level routing (such as with WS-Addressing or ebXML)</li>
+	<li><b>Transport Specific/Routing</b>: <i>MessageContext context</i>
+	(message_router/MessageProcessingNode, message_router/MessageRouter)<br>
+	Message context is a flexible tree structure (thin wrapper around
+	XmlElement) that contains incoming message (request), outgoing message
+	(response) if any, any other data that may be deemed appropriate (such as
+	HTTP/SSL security related).<br>
+	MessageContext is passed between processing nodes until one node returns
+	true to indicate that processing was finished. If outgoing message was set
+	then it is used as a response.<br>
+&nbsp;</li>
+</ul>
+
+<p> Additionally there is RPC layer providing convenient mapping of XML Infoset
+to Java Types. Mapped XML message is then used to invoke RPC service.
+JDK 1.3 Dynamic Proxies are used to create stubs on the fly that
+translate Java types into XML Infoset and send invocation to target Web Service.
+See <b>soaprpc*</b> modules for details.</p>
+<p> Key modules providing abstractions for XML message processing:</p>
+<ul>
+	<li><b>invoker</b>: handle invocation</li>
+	<li><b>processor</b>: handle processing of XML messages on XML messaging and
+	application level</li>
+	<li><b>message_router</b>: powerful routing using both XML message content
+	and transport specific information</li>
+</ul>
+<p> &nbsp;</p>
+<h2> Working with SOAP 1.1 and 1.2</h2>
+<p> In WSUL SOAP comes in two &quot;fragrances&quot;: 1.1 and 1.2.</p>
+<p align="left"> See reference card for
+<a href="../modules/soap_util/xsul/soap/package.html#select">soap modules</a>.</p>
+<h3> Utility functions for processing SOAP in any version</h3>
+<p> There are two sets of easy to use utility functions to quickly generate XML
+Infoset for SOAP and to extract content of SOAP body.</p>
+<p> For more details see reference card for
+<a href="../modules/soap_util/xsul/soap/package.html#util">soap modules</a>.</p>
+<h2> Working with WS-Addressing</h2>
+<p> WSUL provides easy to use WS-Addressing API.</p>
+<p> For more details see reference card for
+<a href="../modules/ws_addressing/xsul/ws_addressing/package.html">ws_addressing
+module</a></p>
+
+<h2> Using HTTP transport directly</h2>
+
+<p> XSUL provides simple and small HTTP client and server side library.</p>
+
+<p> For more details and usage examples please reference cards for
+<a href="../modules/http_client/xsul/http_client/package.html">http_client</a>
+and <a href="../modules/http_server/xsul/http_server/package.html">http_server</a>
+modules.</p>
+<p> &nbsp;</p>
+
+<p> <font color="#FF0000"><b>WORK IN PROGRESS: THE REST OF DOCUMENT UNDER
+DEVELOPMENTT</b></font></p>
+<p> &nbsp;</p>
+<h2> Working With XML Messages In Practice</h2>
+<p> We will create a simple service, say ... Stock Quote service :-)</p>
+<p> Receiving XML</p>
+<p> Sending XML</p>
+<p> &nbsp;</p>
+<h3> SOAP Wrappers</h3>
+<p> They provide convenient way to work with SOAP content.</p>
+<p> &nbsp;</p>
+<p> SoapDocument / SoapEnvelope / SoapHeader / SoapBody / SoapFault</p>
+<p> &nbsp;</p>
+<p> SoapFactory is entrypoint to produce </p>
+<p> is/setW3cFragrance(true) = use SOAP .2 otherwise SOAP 1.1 is used (which is
+currently default unless overridden by WSDL SOAP binding)</p>
+<p> &nbsp;</p>
+<p> &nbsp;</p>
+<h2> On MessageContext and weak linking</h2>
+<p> MessageContext uses addChild from XmlElement to add reference to XML
+messages.</p>
+<p> If addElement was used then it would be an error in case if XML message has
+a parent.</p>
+<p> Using addChild() is weak linking as it does not require child element to
+have parent pointing to containing element.</p>
+<p> There is however a tradeoff: weak linking elements means you can not
+traverse tree bottom-up - calling getParent() on weak-linked element may return
+parent from <b>another</b> tree!</p>
+<p> &nbsp;</p>
+<p> &nbsp;</p>
+
+<h2> More ...</h2>
+
+<p>&nbsp;</p>
+<p>For more info contact <a href="http://www.extreme.indiana.edu/~aslom/">the author</a>.</p>
+<hr />
+<p>
+<a href="http://validator.w3.org/check/referer">
+<img src="validxhtml.gif" alt="Valid XHTML 1.0!" height="17" width="82" border="0" /></a>
+
+ </p>
+
+</body>
+</html>

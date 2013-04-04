@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Groupman"
+  targetNamespace="http://www.extreme.indiana.edu/xsul/xpola/groupman/"
+  xmlns:wsdlns="http://www.extreme.indiana.edu/xsul/xpola/groupman/"
+  xmlns:typens="http://www.extreme.indiana.edu/xsul/xpola/groupman/xsd"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <schema targetNamespace="http://www.extreme.indiana.edu/xsul/xpola/groupman/xsd"
+      xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+      <annotation><documentation xml:lang="en">
+       This XML schema is an example showing how to define input message with
+       set of parameters and how to define output message with results.
+       NOTE: this schema uses default value for some parameters but support
+       for it depends on how much of XML Schemas is supported by WS client software.
+      </documentation></annotation>
+      <complexType name='SequenceOfString'>
+        <sequence>
+          <element name='item' type='xsd:string' maxOccurs='unbounded'/>
+        </sequence>
+      </complexType>
+      
+      <element name="AddGroupIn">
+        <complexType>
+          <sequence>
+            <element name='gname' type='xsd:string'/>
+            <element name='metadata' type='typens:SequenceOfString'/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="AddGroupOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+     </element>
+
+      <element name="AddUsersToGroupIn">
+        <complexType>
+          <sequence>
+            <element name='unames' type='typens:SequenceOfString'/>
+            <element name='gname' type='xsd:string'/>
+            <element name='metadata' type='typens:SequenceOfString'/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="AddUsersToGroupOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+     </element>
+
+      <element name="DeleteGroupsIn">
+        <complexType>
+          <sequence>
+            <element name='gnames' type='typens:SequenceOfString'/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="DeleteGroupsOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+     </element>
+
+      <element name="ListGroupsIn">
+        <complexType>
+          <sequence>
+            <element name='metadata' type='typens:SequenceOfString'/>
+          </sequence>
+        </complexType>
+     </element>
+     
+      <element name="ListGroupsOut">
+        <complexType>
+          <sequence>
+            <element name='gnames' type='typens:SequenceOfString'/>
+          </sequence>
+        </complexType>
+      </element>
+
+
+      <element name="ListUsersOfGroupIn">
+        <complexType>
+          <sequence>
+            <element name='gname' type='xsd:string'/>
+            <element name='recursive' type='xsd:boolean'/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="ListUsersOfGroupOut">
+        <complexType>
+          <sequence>
+            <element name='gnames' type='typens:SequenceOfString'/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="RemoveUsersFromGroupIn">
+        <complexType>
+          <sequence>
+            <element name='unames' type='typens:SequenceOfString'/>
+            <element name='gname' type='xsd:string'/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="RemoveUsersFromGroupOut">
+        <complexType>
+          <sequence/>
+        </complexType>
+     </element>
+
+  
+    </schema>
+  </types>
+
+  <message name="addGroup">
+    <part name="parameters" element="typens:AddGroupIn"/>
+  </message>
+  <message name="addGroupResponse">
+    <part name="parameters" element="typens:AddGroupOut"/>
+  </message>
+  <message name="addUsersToGroup">
+    <part name="parameters" element="typens:AddUsersToGroupIn"/>
+  </message>
+  <message name="addUsersToGroupResponse">
+    <part name="parameters" element="typens:AddUsersToGroupOut"/>
+  </message>
+  <message name="deleteGroups">
+    <part name="parameters" element="typens:DeleteGroupsIn"/>
+  </message>
+  <message name="deleteGroupsResponse">
+    <part name="parameters" element="typens:DeleteGroupsOut"/>
+  </message>
+  <message name="listGroups">
+    <part name="parameters" element="typens:ListGroupsIn"/>
+  </message>
+  <message name="listGroupsResponse">
+    <part name="parameters" element="typens:ListGroupsOut"/>
+  </message>
+  <message name="listUsersOfGroup">
+    <part name="parameters" element="typens:ListUsersOfGroupIn"/>
+  </message>
+  <message name="listUsersOfGroupResponse">
+    <part name="parameters" element="typens:ListUsersOfGroupOut"/>
+  </message>
+  <message name="removeUsersFromGroup">
+    <part name="parameters" element="typens:RemoveUsersFromGroupIn"/>
+  </message>
+  <message name="removeUsersFromGroupResponse">
+    <part name="parameters" element="typens:RemoveUsersFromGroupOut"/>
+  </message>
+
+  <portType name="GroupmanPortType">
+    <operation name="addGroup">
+      <input message="wsdlns:addGroup"/>
+      <output message="wsdlns:addGroupResponse"/>
+    </operation>
+    <operation name="addUsersToGroup">
+      <input message="wsdlns:addUsersToGroup"/>
+      <output message="wsdlns:addUsersToGroupResponse"/>
+    </operation>
+    <operation name="deleteGroups">
+      <input message="wsdlns:deleteGroups"/>
+      <output message="wsdlns:deleteGroupsResponse"/>
+    </operation>
+    <operation name="listGroups">
+      <input message="wsdlns:listGroups"/>
+      <output message="wsdlns:listGroupsResponse"/>
+    </operation>
+    <operation name="listUsersOfGroup">
+      <input message="wsdlns:listUsersOfGroup"/>
+      <output message="wsdlns:listUsersOfGroupResponse"/>
+    </operation>
+    <operation name="removeUsersFromGroup">
+      <input message="wsdlns:removeUsersFromGroup"/>
+      <output message="wsdlns:removeUsersFromGroupResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="GroupmanBinding" type="wsdlns:GroupmanPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="addGroup">
+      <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/groupman/addGroup"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="addUsersToGroup">
+      <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/groupman/addUsersToGroup"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="deleteGroups">
+      <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/groupman/deleteGroups"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="listUsersOfGroup">
+      <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/groupman/listUsersOfGroup"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="removeUsersFromGroup">
+      <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/groupman/removeUsersFromGroup"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="listGroups">
+      <soap:operation soapAction="http://www.extreme.indiana.edu/xsul/groupman/listGroups"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="GroupmanService">
+    <documentation>Group Manager Service for Capman</documentation>
+    <port name="GroupmanPort" binding="wsdlns:GroupmanBinding">
+      <soap:address location="http://www.extreme.indiana.edu/xsul/groupman/endpoint"/>
+    </port>
+  </service>
+
+</definitions>

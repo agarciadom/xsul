@@ -1,0 +1,118 @@
+<p>Simple HTTP Client Library</p>
+<p><b>Depends on modules</b>: <code>http_common</code>, <code>common</code></p>
+<p>&nbsp;</p>
+<h2>Reference card (typical usage patterns)</h2>
+<h3>Typical HTTP connection: request and response</h3>
+<p>Create and keep references to connection managers:</p>
+<pre>
+    private HttpClientConnectionManager connMgr = 
+    	HttpClientReuseLastConnectionManager.newInstance();
+    	//HttpClientReuseLastConnectionManager.newInstance(socketFactory);
+    private HttpClientConnectionManager secureConnMgr;
+</pre>
+<p>Prepare request using secure (typically SSL) or un-secure connection manager</p>
+<pre>
+            HttpClientRequest req;
+            if(secure) {
+                if(secureConnMgr == null) {
+                    throw new YourException(
+                        "secure connection manager must be set to allow https:// connection to "+location);
+                }
+                req = secureConnMgr.connect(host, port, timeout);
+            } else {
+                req = connMgr.connect(host, port, timeout);
+            }
+</pre>
+<p>Write first HTTP request line:
+</p>
+<pre>
+            req.setRequestLine("POST", requestUri, "HTTP/1.0");
+</pre>
+
+<p>Prepare and send all headers:
+</p>
+<pre>
+            req.ensureHeadersCapacity(2); //action + keep-alive
+            if(keepAlive) {
+                //      Keep-Alive: 300
+                //      Connection: keep-alive
+                req.setHeader("Keep-Alive", "300");
+                req.setConnection("keep-alive");
+            } else {
+                req.setConnection("close");
+            }
+            req.setContentType("text/xml; charset=utf-8");
+            //http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
+            req.setUserAgent(Version.getUserAgent());
+            if(soapAcion != null) {
+                req.setHeader("SOAPAction", "\""+soapAcion+"\"");
+            }
+            HttpClientResponse resp = req.sendHeaders();
+</pre>
+
+<p>After header are sent we get response object and can write actual reuest body content</p>
+<pre>
+            OutputStream out = req.getBodyOutputStream();
+            Writer utf8Writer = new Utf8Writer(out, 8*1024);
+</pre>
+
+
+<p>After writing content make sure to close() it to indicate reuqest is finished
+</p>
+<pre>
+            utf8Writer.close();
+</pre>
+
+
+
+<p>Now we can process response
+</p>
+<pre>
+            // read staus typical HTTP/1.0 200 OK
+            // read Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+            // http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6.1
+            resp.readStatusLine();
+            
+            String respStatusCode = resp.getStatusCode();
+
+            // read headers
+            resp.readHeaders();
+
+            String contentType = resp.getContentType();
+            
+</pre>
+
+
+<p>After reading response header and checking status code (200 or 500 etc) it is time to read actual response
+- and use content length if provided (-1 is used to indicate unknown)
+</p>
+<pre>
+
+            int contentLength = resp.getContentLength();
+
+            InputStream in = resp.getBodyInputStream();
+</pre>
+
+
+<p>After reading is finished make sure to close response input:
+</p>
+<pre>
+            in.close();
+
+</pre>
+
+
+
+<p>
+</p>
+<pre>
+
+</pre>
+
+
+<p>
+</p>
+<pre>
+
+</pre>
+

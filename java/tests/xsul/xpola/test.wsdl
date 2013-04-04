@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Decoder"
+                targetNamespace="http://www.extreme.indiana.edu/lead/decoder/"
+                xmlns:wsdlns="http://www.extreme.indiana.edu/lead/decoder/"
+                xmlns:typens="http://www.extreme.indiana.edu/lead/decoder/xsd"
+                xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <types>
+                <schema targetNamespace="http://www.extreme.indiana.edu/lead/decoder/xsd"
+                xmlns="http://www.w3.org/2001/XMLSchema"
+                elementFormDefault="unqualified">
+                                
+                        <annotation><documentation xml:lang="en">
+                              This XML schema is an example showing how to define input message with
+                              set of parameters and how to define output message with results.
+                              NOTE: this schema uses default value for some parameters but support
+                              for it depends on how much of MXL Schemas is supported by WS client software.
+                        </documentation></annotation>
+
+                        <complexType name='ArrayOfString'>
+                            <sequence>
+                                <element name='item' type='xsd:string' maxOccurs='unbounded'/>
+                            </sequence>
+                        </complexType>
+
+                
+                        <complexType name="DecoderParameters">
+                                <annotation><documentation xml:lang="en">
+                                  Type of input message: sequence of parameters.
+                                </documentation></annotation>
+                        
+                                <sequence>
+                                        <element minOccurs="1" maxOccurs="1" name="Topic" type="xsd:string"/>
+                                        <element minOccurs="1" maxOccurs="1" name="InputFile" type="xsd:string"/>
+                                        <element minOccurs="1" maxOccurs="1" name="OutputDirectory" type="xsd:string"/>
+                                        <element minOccurs="0" maxOccurs="1" name="StringArr" type="typens:ArrayOfString"/>
+                                        
+                                        <element name="nproc" type="xsd:int" minOccurs="0" maxOccurs="1" default="67" >
+                                          <annotation><documentation xml:lang="en">
+                                                Example parameter with default value.
+                                          </documentation></annotation>
+                                        </element>
+                                </sequence>
+                                <attribute name="SomeStringAttrib" type="string"/>
+                                <attribute name="SomeBoolAttrib" type="boolean"/>
+                        </complexType>
+                        <element name="runDecoder" type="typens:DecoderParameters"/>
+                        
+                        <complexType name="DecoderResults">
+                                <annotation><documentation xml:lang="en">
+                                  Type of output message: now just one return parameter.
+                                </documentation></annotation>
+                                <sequence>
+                                        <element minOccurs="1" maxOccurs="1" name="Status" type="string"/>
+                                </sequence>
+                        </complexType>
+
+                        <element name="runDecoderResult" type="typens:DecoderResults"/>
+                        
+                </schema>
+        </types>
+        <message name="runDecoder">
+                <part name="x" element="typens:runDecoder"/>
+        </message>
+        <message name="runDecoderResponse">
+                <part name="Result" element="typens:runDecoderResult"/>
+
+        </message>
+        <portType name="DecoderPortType">
+                <operation name="runDecoder" parameterOrder="x">
+                        <input message="wsdlns:runDecoder"/>
+                        <output message="wsdlns:runDecoderResponse"/>
+                </operation>
+        </portType>
+        <binding name="DecoderBinding" type="wsdlns:DecoderPortType">
+
+                <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+                <operation name="runDecoder">
+                        <soap:operation soapAction="http://www.extreme.indiana.edu/lead/decoder/"/>
+                        <input>
+                                <soap:body use="literal"/>
+                        </input>
+                        <output>
+                                <soap:body use="literal"/>
+                        </output>
+
+                </operation>
+        </binding>
+        <service name="DecoderService">
+                <port name="DecoderPort" binding="wsdlns:DecoderBinding">
+                        <soap:address location="http://www.extreme.indiana.edu/lead/decoder/endpoint"/>
+                </port>
+        </service>
+</definitions>
+

@@ -1,0 +1,137 @@
+<html>
+<h2><font face="Arial">A Guide for Capability-Enabled Web Services </font></h2>
+<p><font face="Arial"><a href="#user">Users' Guide</a></font><br>
+<font face="Arial"><a href="#programmer">Programmers' Guide</a></font><br>
+<hr>
+<font face="Arial"><h3>Users' Guide</h3><br>
+<a name="user">First execute classpath.sh/csh/bat in each console.<br>
+<br>
+Start a capability-enabled Echo Web service as a provider. In order to allow 
+your users (including you yourself) to access your service, you need to generate 
+the corresponding capability tokens instructed in <a href="#howtogen">How to 
+generate a capability token</a>.<br>
+<font color="#0000FF"><i>% java -Djava.endorsed.dirs=lib/endorsed xsul_sample_capability.EchoCapServer \<br>
+&nbsp;&nbsp;&nbsp;
+--port 8989 --cert /u/lifang/.globus/usercert.pem \<br>
+&nbsp;&nbsp;&nbsp;
+--key /u/lifang/.globus/userkey2.pem \<br>
+&nbsp;&nbsp;&nbsp;
+--cacert /etc/grid-security/certificates/42864e48.0</i></font><br>
+<br>
+Assume you have got your capability token from the service provider. Access an 
+Echo Web service thru the Echo service client as a user with the following 
+command:<br>
+<i><font color="#0000FF">% java -Djava.endorsed.dirs=lib/endorsed xsul_sample_capability.EchoCapClient \<br>
+&nbsp;&nbsp;&nbsp; --url http://localhost:8989 --cap ./echo.cap \<br>
+&nbsp;&nbsp;&nbsp; --cert /u/lifang/.globus/usercert.pem \<br>
+&nbsp;&nbsp;&nbsp; --key /u/lifang/.globus/userkey2.pem \<br>
+&nbsp;&nbsp;&nbsp; --cacert /etc/grid-security/certificates/42864e48.0</font></i>
+<p>
+<a name="howtogen"><b>HOW TO GENERATE A CAPABILITY TOKEN</b><br>
+<br>
+In order to access a capability-enabled Web service, you need to present an 
+approriate capability token. There are many choices to generate capability 
+tokens. The easiest way is <a href="#portlet">through a capability manager portlet</a>, if available. 
+The other way is to <a href="#cmdline">use the capability generator directly from command line.</a> <br>
+<br>
+* The authorized users in a list of their distinguished names (Sample WSDL 
+document: <i>userlist.txt</i>)<br>
+* The WSDL document(s) of a Web service instance (Sample WSDL document: 
+<i>echo.wsdl</i>)<br>
+* The provider's certificate, unencrypted priviate key and the CA certificate, 
+only if through the command line capability generator.<br>
+<p>
+<a name="portlet"><b>1. Through a Capability Manager (Capman) Portlet<br>
+</b>
+<b>1.1. Create it!<br>
+</b>In the page &quot;Capability Manager: Register A New Capability (Provider Mode)&quot;, 
+search a service according to its name, if it is registered previously. Capman 
+will fetch the WSDL document from the registry automatically. If the service is 
+not registered, the service provider should manually give the service url and 
+the required WSDL document(s).<br>
+<br>
+<b>1.2 Download it!<br>
+</b>After creating the capability, goes to the detailed properties of a capability 
+token and click the &quot;<i>view the capability in raw XML text</i>&quot;. Download the 
+capability as a file to your local machine if you are about to access a 
+capability-enabled Web service through a command line client. If you are 
+accessing it through a portlet, you don't need to do anything.<br>
+<p>
+<a name="cmdline"><b>2. Through a command line Capability Generator<br>
+</b>
+First we assume you have a certificate; otherwise, you need to apply for a 
+certificate from a certificate authority (CA). Your certificate usually has two 
+files, a public key, <i>usercert.pem</i>, and a private 
+key, <i>userkey.pem</i>. If you have done the <a href="#prep">preparation</a> work, jump to 
+<a href="#howtouse">how to use the capability generator</a>.
+<p>
+<a name="prep"><b>2.1 Preparation</b><br>
+<br>
+<b>2.1.1.</b> Decrypt your private key with the command: <br>
+<font color="#0000FF"><i>% /l/openssl/bin/openssl rsa -in your_encrypted_private_key \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-out your_unencrypted_private_key</i></font><br>
+You will be asked for the password if there is any. The current capability 
+generator only takes the unencrypted private key. <br>
+<br>
+* To protect the security of your private key, do not copy your private key over 
+the unencrypted networks. Always use &quot;scp&quot; or other encryption methods for 
+inter-host transferring.<br>
+<br>
+Step 2 and 3 are for the service providers:<br>
+<br>
+<b>2.1.2.</b> Get the WSDL document of your web service. Usually a web service is 
+accompanied by one or more WSDL documents. There is an &quot;echo.wsdl&quot; for Echo Web Service sample 
+in XSUL library. If you cannot find the WSDL document, you need to 
+write up one according to the interface of your web service. <br>
+<br>
+<b>2.1.3.</b> Build your userlist. You need to know your users' distinguished names (DN). 
+You can find the DN in the certificate file, usually named &quot;usercert.pem&quot;. List 
+the DN's in a text file and separate them with CRLF. You can find a sample 
+userlist in samples/ directory.<br>
+<p><a name="howtouse"><b>2.2 How to use the capability generator:<br></b>Currently, the capability tokens are generated by 
+<i>org.extreme.capman.CapabilityGenerator</i>. Because the limitation of the command 
+line tool, by default all the operations specified in the WSDL document are set 
+as &quot;Permit&quot; in the capability tokens. The capability tokens expire after 3000s. 
+More options will be provided with a user-friendly portlet interface later as 
+the Capability Manager.<br><br>The service provider has to provide the following parameters to generate the 
+corresponding capability tokens:<br><ul><li>The certificate (for example, <i>usercert.pem</i>) <a href="#opt">**</a></li>
+<li>The <b>unencrypted</b> private key (for example, <i>userkey2.pem</i>) <a href="#opt">**</a></li>
+<li>The CA certificate (for example, <i>42864e48.0</i>) <a href="#opt">**</a></li>
+<li>The WSDL document (for example, <i>yourservice.wsdl</i>)</li>
+<li>The userlist (for example, <i>yourusers.txt</i>)</li>
+<li>The URL of your service. Currently we use <b><i>http://serviceIPaddress:portnumber/servicename</i></b> to identify your web serivce instance.</li></ul>
+<a name="opt">** Optional. If they are not provided, the system will try to get the default 
+certificate, private key and CA certificates specified in your cog.properties 
+setting. However, you are not required to have a COG environment.<br><br>On UNIX, the command line looks like:<br>
+<font color="#0000FF"><i>% ./run.sh generate_cap --url the_service_url \<br>&nbsp;&nbsp;&nbsp; --cert your_certificate --key your_unencrypted_key \<br>&nbsp;&nbsp;&nbsp; --wsdl the_wsdl_doc --userlist your_userlist \<br>&nbsp;&nbsp;&nbsp; --cap the_capability_file_to_be_created</i></font><br>
+<br>On Windows:<br><font color="#0000FF"><i>% run generate_cap --url the_service_url \<br>&nbsp;&nbsp;&nbsp; --cert your_certificate --key your_unencrypted_key \<br>&nbsp;&nbsp;&nbsp; --wsdl the_wsdl_doc --userlist your_userlist \<br>&nbsp;&nbsp;&nbsp; --cap the_capability_file_to_be_created</i></font><br>
+</p>
+<h3>
+<a name="programmer">Programmers' Guide</h3>
+<h3>1. Server side</h3>
+<i>EchoCapServer.java</i> is a sample to Capability-enable a service in Xsul. You need 
+to give the provider's proxy cert, CA certs and the service instance. The 
+service URI is optional.<br>
+<br>
+<i>
+<font color="#008000">customizedProcessor = new CapabilityProcessor(svc_uri, cred, trustedCerts, service);</font></i>
+<br>The rest of the procedure is the same as other XSUL servers.
+<h3>2. Client side</h3>
+At the client side, if the capability is in a context such as in a portal, the physical storage location of capabilities is transparent. A 
+specific capability can be fetched by:<br>
+<font color="#008000"><i>CapabilityManager capman = CapmanFactory.getCapman();<br>
+Capability cap = capman.getByHandle(serviceLocation);</i><br>
+</font>
+<p>
+In order to process the capability tokens successfully, the client needs to create an instance of a special invoker <i>CapabilityInvoker</i>.
+<br>
+<font color="#008000"><i>SoapHttpDynamicInfosetInvoker invoker = new CapabilityInvoker(cred, trustedCerts, cap, svcurl);</i></font>
+<br>
+The rest of the procedure is the same as other XSUL clients.
+<p>
+<hr>
+<!--$Id: package.html,v 1.2 2005/01/05 05:36:42 lifang Exp $>
+Extreme! Computing Lab<br>
+http://www.extreme.indiana.edu<br>
+</p></font>
+</html>

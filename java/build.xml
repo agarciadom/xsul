@@ -1,0 +1,1034 @@
+<?xml version="1.0"?>
+
+<!-- Author: Alek -->
+
+<project name="WS/XML Services Utility Library" default="xsul" basedir=".">
+
+    <!-- allow user to override properties with external file-->
+    <!-- use it to set: ${dist_repository} -->
+    <property file="build.properties" />
+
+
+    <!-- NOTE: to set VERSION modify modules/common/xsul/Version.java (handled by set-version target) -->
+
+    <!-- set global properties for this build -->
+    <property environment="env" />
+    <property name="JAVA_HOME" value="${env.JAVA_HOME}" />
+    <property name="PROJECT" value="${ant.project.name}" />
+    <property name="VENDOR" value="IU Extreme! Lab (http://www.extreme.indiana.edu)" />
+
+
+    <!-- Parent source directory -->
+    <property name="src" value="modules"/>
+    <property name="src_common" value="${src}/common"/>
+    <property name="src_common_type_handler" value="${src}/common_type_handler"/>
+    <property name="src_den" value="${src}/den"/>
+    <property name="src_dispatcher" value="${src}/dispatcher"/>
+    <property name="src_dsig" value="${src}/dsig"/>
+    <property name="src_dsig_globus" value="${src}/dsig_globus"/>
+    <property name="src_dsig_globus_opensaml" value="${src}/dsig_globus_opensaml"/>
+    <property name="src_http_client" value="${src}/http_client"/>
+    <property name="src_http_common" value="${src}/http_common"/>
+    <property name="src_http_server" value="${src}/http_server"/>
+    <property name="src_invoker" value="${src}/invoker"/>
+    <property name="src_invoker_soap" value="${src}/invoker_soap"/>
+    <property name="src_invoker_over_http" value="${src}/invoker_over_http"/>
+    <property name="src_invoker_soap_over_http" value="${src}/invoker_soap_over_http"/>
+    <property name="src_invoker_secure_soap_over_http" value="${src}/invoker_secure_soap_over_http"/>
+    <property name="src_invoker_https_gsi" value="${src}/invoker_https_gsi"/>
+    <property name="src_invoker_https_gsi" value="${src}/invoker_https_gsi"/>
+    <property name="src_lead" value="${src}/lead"/>
+    <property name="src_processor" value="${src}/processor"/>
+    <property name="src_processor_over_http" value="${src}/processor_over_http"/>
+    <property name="src_processor_soap_over_http" value="${src}/processor_soap_over_http"/>
+    <property name="src_processor_secure" value="${src}/processor_secure"/>
+    <property name="src_message_router" value="${src}/message_router"/>
+    <property name="src_message_router_over_http" value="${src}/message_router_over_http"/>
+    <property name="src_message_secure_router_over_http" value="${src}/message_secure_router_over_http"/>
+    <property name="src_msg_box" value="${src}/msg_box"/>
+    <property name="src_monitoring" value="${src}/monitoring"/>
+    <property name="src_puretls_client_socket_factory" value="${src}/puretls_client_socket_factory"/>
+    <property name="src_puretls_server_socket_factory" value="${src}/puretls_server_socket_factory"/>
+    <property name="src_soap_util" value="${src}/soap_util"/>
+    <property name="src_soap11_util" value="${src}/soap11_util"/>
+    <property name="src_soap12_util" value="${src}/soap12_util"/>
+    <property name="src_soap" value="${src}/soap"/>
+    <property name="src_soap11" value="${src}/soap11"/>
+    <property name="src_soap12" value="${src}/soap12"/>
+    <property name="src_soap11_type_handler" value="${src}/soap11_type_handler"/>
+    <property name="src_soaprpc_client" value="${src}/soaprpc_client"/>
+    <property name="src_soaprpc_server" value="${src}/soaprpc_server"/>
+    <property name="src_type_handler" value="${src}/type_handler"/>
+    <property name="src_ws_addressing" value="${src}/ws_addressing"/>
+    <property name="src_ws_addressing_converter" value="${src}/ws_addressing_converter"/>    
+    <property name="src_ws_addressing_xwsdl" value="${src}/ws_addressing_xwsdl"/>
+    <property name="src_ws_adressing_detect_duplicates" value="${src}/ws_adressing_detect_duplicates"/>        
+    <property name="src_ws_secconv" value="${src}/ws_secconv"/>
+    <property name="src_ws_secconv_client" value="${src}/invoker_ws_secconv"/>
+    <property name="src_ws_secconv_server" value="${src}/ws_secconv_server"/>
+    <property name="src_xsd_type_handler" value="${src}/xsd_type_handler"/>
+    <property name="src_epr_router" value="${src}/epr_router"/>
+    <property name="src_xbeans_document_dispatcher" value="${src}/xbeans_document_dispatcher"/>
+    <property name="src_xbeans_document_invoker" value="${src}/xbeans_document_invoker"/>
+    <property name="src_xbeans_secure_document_invoker" value="${src}/xbeans_secure_document_invoker"/>
+    <property name="src_xbeans_type_handler" value="${src}/xbeans_type_handler"/>
+    <property name="src_xbeans_util" value="${src}/xbeans_util"/>
+    <property name="src_xml_naming_over_http" value="${src}/xml_naming_over_http"/>
+    <property name="src_xs" value="${src}/xs"/>
+    <property name="src_xhandler" value="${src}/xhandler"/>
+    <property name="src_xhandler_secure" value="${src}/xhandler_secure"/>
+    <property name="src_xhandler_soap_sticky_header" value="${src}/xhandler_soap_sticky_header"/>
+    <property name="src_xhandler_drop_repeated_wsa_msg" value="${src}/xhandler_drop_repeated_wsa_msg"/>
+    <property name="src_xhandler_wsa_convert" value="${src}/xhandler_wsa_convert"/>
+    <property name="src_xpola" value="${src}/xpola"/>
+    <property name="src_xservices_xbeans" value="${src}/xservices_xbeans"/>
+    <property name="src_xservo" value="${src}/xservo"/>
+    <property name="src_xservo_soap" value="${src}/xservo_soap"/>
+    <property name="src_xservo_soap_http" value="${src}/xservo_soap_http"/>
+    <property name="src_xwsdl" value="${src}/xwsdl"/>
+    <property name="src_xwsdlc" value="${src}/xwsdl_compiler"/>
+    <property name="src_xwsdlc_xbeans" value="${src}/xwsdl_compiler_xbeans"/>
+    <property name="src_xwsif" value="${src}/xwsif"/>
+    <property name="src_xwsif_runtime" value="${src}/xwsif_runtime"/>
+    <property name="src_xwsif_runtime_async" value="${src}/xwsif_runtime_async"/>
+    <property name="src_xwsif_runtime_async_http" value="${src}/xwsif_runtime_async_http"/>
+    <property name="src_xwsif_runtime_async_msgbox" value="${src}/xwsif_runtime_async_msgbox"/>
+    <property name="src_xwsif_runtime_xbeans" value="${src}/xwsif_runtime_xbeans"/>
+    <property name="src_xwsif_dynamic_invoker" value="${src}/xwsif_dynamic_invoker"/>
+    <property name="src_xwsif_provider_xsul_soap_http" value="${src}/xwsif_provider_xsul_soap_http"/>
+    <property name="src_xwsif_provider_xsul_soap_gsi" value="${src}/xwsif_provider_xsul_soap_gsi"/>
+
+    <property name="src_tests" value="tests"/>
+    <property name="src_samples" value="samples"/>
+
+    <!-- generated by xwsdlc -->
+    <property name="src_generated" value="generated"/>
+    <property name="src_generated_java_intf" value="${src_generated}/java_interfaces"/>
+    <property name="src_generated_xmlbeans" value="${src_generated}/xmlbeans_typesrc"/>
+    <property name="src_generated_xmlbeans_typelib" value="${src_generated}/xmlbeans_typelib"/>
+    <property name="lib_generated_types" value="${src_generated_xmlbeans_typelib}/xsul_typelib.jar"/>
+
+    <!-- Lib directory -->
+    <property name="lib" value="lib" />
+
+    <!-- Build directory -->
+    <property name="build" value="build" />
+    <property name="build_apidoc" value="${build}/apidoc" />
+    <property name="build_classes" value="build/classes" />
+    <property name="build_common" value="${build_classes}/common" />
+    <property name="build_client" value="${build_classes}/client" />
+    <property name="build_tmp" value="${build}/tmp" />
+    <property name="build_generated_tmp_java_intf" value="${build_tmp}/${src_generated_java_intf}"/>
+    <property name="build_generated_tmp_xmlbeans" value="${build_tmp}/${src_generated_xmlbeans}"/>
+    <property name="build_generated_tmp_xmlbeans_typelib" value="${build_tmp}/${src_generated_xmlbeans_typelib}"/>
+    <property name="build_generated_tmp_lib_types" value="${build_tmp}/${lib_generated_types}"/>
+
+    <property name="build_server" value="${build_classes}/server" />
+    <property name="build_puretls" value="${build_classes}/puretls" />
+    <property name="build_dsig" value="${build_classes}/dsig" />
+    <property name="build_dsig_globus" value="${build_classes}/dsig_globus" />
+    <property name="build_msg_box" value="${build_classes}/msg_box" />
+    <property name="build_rpc"    value="${build_classes}/rpc" />
+    <property name="build_xs"    value="${build_classes}/xs" />
+    <property name="build_xservo"    value="${build_classes}/xservo" />
+    <property name="build_xwsdl"    value="${build_classes}/xwsdl" />
+    <property name="build_xwsdlc"    value="${build_classes}/xwsdl_compiler" />
+    <property name="build_xwsif"    value="${build_classes}/xwsif" />
+    <property name="build_xbeans"    value="${build_classes}/xbeans" />
+    <property name="build_tests"    value="${build_classes}/tests" />
+    <property name="build_xhandler_secure"    value="${build_classes}/xhandler_secure" />
+    <property name="build_samples"    value="${build_classes}/samples" />
+    <property name="build_dispatcher" value="${build_classes}/dispatcher" />
+    <property name="build_ws_secconv" value="${build_classes}/ws_secconv" />
+    <property name="build_den" value="${build_classes}/den" />
+    <property name="build_xpola" value="${build_classes}/xpola" />
+
+    <!-- The base directory -->
+    <property name="basedir" value="." />
+
+    <target name="help">
+        <echo message="Re-run with arg -projecthelp to find out available targets."/>
+        <echo message="Here are the basic target"/>
+        <echo message="ant all will re-compile the project"/>
+        <echo message="ant junit will run unit tests"/>
+    </target>
+
+    <!-- Initialization stuff -->
+    
+    <!-- determine verson by compiling java code and running java class - used to avoid redundancies -->
+    <target name="set_version">
+        <mkdir dir="${build_common}"/>
+        <javac srcdir="${src_common}" destdir="${build_common}" debug="on" source="1.4" includes="**/XsulVersion.java">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <java classname="xsul.XsulVersion" failonerror="true" outputproperty="SPEC_VERSION">
+           <arg value="-spec"/>
+           <classpath>
+             <pathelement location="${build_common}"/>
+           </classpath>
+        </java>
+        <java classname="xsul.XsulVersion" failonerror="true" outputproperty="VERSION">
+           <arg value="-impl"/>
+           <classpath>
+             <pathelement location="${build_common}"/>
+           </classpath>
+      </java>
+      <echo>${ant.project.name} Version: ${VERSION}</echo>
+      <touch file="${build_common}/xsul-${VERSION}" />
+    </target>
+
+    <target name="init" depends="set_version">
+        <!-- Create the time stamp -->
+        <tstamp />
+        <!--echo message="Project: ${ant.project.name} (${VERSION}) (${VERSION_S})"/-->
+        <echo message="ANT Version: ${ant.version}"/>
+        <echo message="JAVA_HOME: ${JAVA_HOME}"/>
+        <echo message="Java version: ${ant.java.version}"/>
+        <mkdir dir="${build_classes}"/>
+        <available property="junit_present" classpathref="junit_libraries" classname="junit.framework.TestCase" />
+        <available property="dist_repository_present" file="${dist_repository}" type="dir"/>
+
+        <!-- JAR file name -->
+        <property name="xsul_all_jar" value="${build}/xsul-${VERSION}.jar"/>
+        <property name="xsul_lite_jar" value="${build}/xsul_lite-${VERSION}.jar"/>
+        <property name="xsul_client_jar" value="${build}/xsul_client-${VERSION}.jar"/>
+        <property name="xsul_samples_jar" value="${build}/xsul_samples-${VERSION}.jar"/>
+        <property name="xsul_xwsdlc_jar" value="${build}/xsul_xwsdlc-${VERSION}.jar"/>
+
+
+    </target>
+
+
+
+
+    <target name="check_junit" unless="junit_present" depends="init">
+      <echo message="Warning: JUnit dependencies were not resolved."/>
+    </target>
+
+    <path id="common_libraries">
+        <fileset dir="${lib}">
+            <include name="xpp3/*.jar" />
+        </fileset>
+        <pathelement path="${build_common}"/>
+    </path>
+
+    <path id="junit_libraries">
+        <fileset dir="${lib}">
+            <include name="junit/*.jar" />
+        </fileset>
+    </path>
+
+    <path id="generated_libraries">
+        <fileset dir="${src_generated_xmlbeans_typelib}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+    
+    <path id="xwsdlc_libraries">
+        <fileset dir="${lib}">
+            <include name="xbeans/*.jar" />
+        </fileset>
+        <path refid="common_libraries"/>
+        <pathelement path="${build_xwsdl}"/>
+        <pathelement path="${build_xwsdlc}"/>
+    </path>
+
+    <!--path id="generate_libraries">
+        <path refid="xwsdlc_libraries"/>
+        <pathelement path="${build_xwsdlc}"/>
+    </path-->
+
+    <path id="dsig_globus_libraries">
+        <fileset dir="${lib}">
+            <include name="dsig_globus/*.jar" />
+        </fileset>
+        <path refid="common_libraries"/>
+        <pathelement path="${build_common}"/>
+        <pathelement path="${build_dsig}"/>
+    </path>
+
+    <path id="dsig_globus_saml_libraries">
+        <fileset dir="${lib}">
+            <include name="opensaml/*.jar" />
+        </fileset>
+        <path refid="dsig_globus_libraries"/>
+        <path refid="common_libraries"/>
+        <pathelement path="${build_common}"/>
+        <pathelement path="${build_dsig}"/>
+        <pathelement path="${build_dsig_globus}"/>
+        <pathelement path="${build_ws_secconv}"/>
+    </path>
+
+    <path id="puretls_libraries">
+        <path refid="common_libraries"/>
+        <pathelement path="${build_puretls}"/>
+    </path>
+
+    <path id="wssec_libraries">
+        <fileset dir="${lib}">
+            <include name="opensaml/*.jar" />
+        </fileset>
+        <path refid="dsig_globus_libraries"/>
+        <path refid="common_libraries"/>
+        <pathelement path="${build_common}"/>
+        <pathelement path="${build_dsig}"/>
+        <pathelement path="${build_dsig_globus}"/>
+        <pathelement path="${build_ws_secconv}"/>
+        <pathelement path="${build_xwsif}"/>
+        <pathelement path="${build_client}"/>
+        <pathelement path="${build_server}"/>
+        <pathelement path="${build_xpola}"/>
+        <pathelement path="${build_xwsdl}"/>
+    </path>
+
+    <path id="client_libraries">
+        <path refid="common_libraries"/>
+        <pathelement path="${build_common}"/>
+        <pathelement path="${build_client}"/>
+    </path>
+
+
+    <path id="client_server_libraries">
+        <path refid="common_libraries"/>
+        <pathelement path="${build_common}"/>
+        <pathelement path="${build_client}"/>
+        <pathelement path="${build_server}"/>
+    </path>
+
+    <path id="xwsdl_xs_libraries">
+        <path refid="client_server_libraries"/>
+        <pathelement path="${build_xwsdl}"/>
+        <pathelement path="${build_xs}"/>
+    </path>
+
+    <path id="xwsdlc_xbeans_libraries">
+        <path refid="common_libraries"/>
+        <pathelement path="${build_xwsdl}"/>
+        <pathelement path="${build_xbeans}"/>
+        <fileset dir="${lib}">
+            <include name="xbeans/*.jar" />
+        </fileset>
+    </path>
+
+
+    <path id="xservo_libraries">
+        <path refid="xwsdl_xs_libraries"/>
+        <pathelement path="${build_xwsif}"/>
+        <pathelement path="${build_xbeans}"/>
+        <pathelement path="${build_rpc}"/>
+        <fileset dir="${lib}">
+            <include name="xbeans/*.jar" />
+        </fileset>
+    </path>
+
+    <path id="xbeans_libraries">
+        <fileset dir="${lib}">
+            <include name="xbeans/*.jar" />
+        </fileset>
+        <path refid="dsig_globus_libraries"/>
+        <path refid="client_server_libraries"/>
+        <pathelement path="${build_rpc}"/>
+        <pathelement path="${build_xbeans}"/>
+        <pathelement path="${build_dsig_globus}"/>
+    </path>
+
+    <path id="msg_box_libraries">
+        <path refid="client_server_libraries"/>
+        <pathelement path="${build_msg_box}"/>
+    </path>
+
+    <path id="secconv_libraries">
+        <path refid="dsig_globus_libraries"/>
+        <path refid="client_server_libraries"/>
+        <pathelement path="${build_rpc}"/>
+        <pathelement path="${build_dsig}"/>
+        <pathelement path="${build_dsig_globus}"/>
+        <pathelement path="${build_ws_secconv}"/>
+        <pathelement path="${build_xpola}"/>
+    </path>
+
+    <path id="all_libraries">
+        <fileset dir="${lib}">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${src_generated_xmlbeans_typelib}">
+            <include name="**/*.jar" />
+        </fileset>
+        <dirset dir="${build_classes}">
+            <include name="*" />
+        </dirset>
+    </path>
+
+
+    <path id="xpola_libraries">
+        <fileset dir="${lib}">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${src_generated_xmlbeans_typelib}">
+            <include name="**/*.jar" />
+        </fileset>
+        <dirset dir="${build_classes}">
+            <include name="*" />
+        </dirset>
+    </path>
+
+    <!-- Clean up -->
+    
+   <target name="clean">
+        <!-- Delete the ${build} directory trees -->
+        <!--delete dir="${build}" /-->
+        <delete includeEmptyDirs="true">
+            <fileset dir="${build}" defaultexcludes="no">
+                <include name="**/*" />
+            </fileset>
+        </delete>
+        <delete>
+            <fileset dir="${src}" defaultexcludes="no">
+                <include name="**/*~" />
+            </fileset>
+        </delete>
+    </target>
+
+
+    <!--- COMPILING -->
+
+
+    <target name="all" depends="clean,xsul" />
+    <target name="compile" depends="common,xwsdlc,dsig,dsig_globus,dsig_globus_opensaml,ws_secconv,client,alldsig,server,client_server,rpc,lead,msg_box,dispatcher,xbeans,puretls,xwsif,xservo,xwsif_xbeans,xpola,secconv,wssec,den" />
+    <target name="xsul" depends="compile,jar,samples,tests" />
+
+    <target name="common" depends="init">
+        <javac srcdir="${src_common}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_http_common}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+
+        <!-- basic SOAP 1.1 support -->
+        <javac srcdir="${src_soap_util}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_soap11_util}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <!-- enhanced SOAP 1.1/1.2 support -->
+        <javac srcdir="${src_soap12_util}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+    </target>
+
+    <!--target name="generated">
+        <mkdir dir="${build_generated}"/>
+        <javac srcdir="${src_generated_java_intf}" destdir="${build_generated}" debug="on" source="1.4">
+            <classpath refid="generated_libraries"/>
+        </javac>
+    </target-->
+    
+    <target name="client" depends="common">
+        <mkdir dir="${build_client}"/>
+        <javac srcdir="${src_invoker}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_invoker_soap}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_http_client}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_invoker_over_http}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_invoker_soap_over_http}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_xml_naming_over_http}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+    </target>
+    
+    <target name="server" depends="common">
+        <mkdir dir="${build_server}"/>
+
+        <javac srcdir="${src_soap}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_soap12}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_soap11}" destdir="${build_common}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+
+        <javac srcdir="${src_processor}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_http_server}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+                
+        <javac srcdir="${src_monitoring}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <copy todir="${build_server}">
+          <fileset dir="${src_monitoring}" includes="**/*.ico"/>
+        </copy>
+        
+        <javac srcdir="${src_processor_over_http}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_processor_soap_over_http}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_message_router}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_message_router_over_http}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_message_secure_router_over_http}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="dsig_globus_saml_libraries"/>
+        </javac>
+        <javac srcdir="${src_processor_secure}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="dsig_globus_saml_libraries"/>
+        </javac>
+    </target>
+
+    <target name="puretls" depends="client,server">
+        <mkdir dir="${build_puretls}"/>
+        <javac srcdir="${src_puretls_client_socket_factory}" destdir="${build_puretls}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+            <classpath refid="dsig_globus_libraries"/>
+        </javac>
+        <javac srcdir="${src_puretls_server_socket_factory}" destdir="${build_puretls}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+            <classpath refid="dsig_globus_libraries"/>
+        </javac>
+        <javac srcdir="${src_invoker_https_gsi}" destdir="${build_puretls}" debug="on" source="1.4">
+            <classpath refid="dsig_globus_saml_libraries"/>
+            <classpath refid="puretls_libraries"/>
+            <classpath refid="client_libraries"/>            
+        </javac>
+	        
+    </target>
+
+
+    <target name="client_server" depends="client,server">
+        <mkdir dir="${build_server}"/>
+        <javac srcdir="${src_ws_addressing}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+        </javac>
+        <javac srcdir="${src_ws_addressing_converter}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+        </javac>
+        <javac srcdir="${src_ws_adressing_detect_duplicates}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+        </javac>        
+    </target>
+
+    <target name="lead" depends="client_server,xbeans_util">
+        <mkdir dir="${build_server}"/>
+        <javac srcdir="${src_lead}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+            <classpath refid="xbeans_libraries"/>
+            <classpath refid="xwsdl_xs_libraries"/>            
+        </javac>
+    </target>
+
+
+    <target name="msg_box" depends="client_server">
+        <mkdir dir="${build_msg_box}"/>
+        <javac srcdir="${src_msg_box}" destdir="${build_msg_box}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+        </javac>
+    </target>
+
+    <target name="dsig" depends="common">
+        <mkdir dir="${build_dsig}"/>
+        <javac srcdir="${src_dsig}" destdir="${build_dsig}" debug="on" source="1.4">
+            <classpath refid="dsig_globus_libraries"/>
+        </javac>
+    </target>
+
+    <target name="dsig_globus" depends="common">
+        <mkdir dir="${build_dsig_globus}"/>
+        <javac srcdir="${src_dsig_globus}" destdir="${build_dsig_globus}" debug="on" source="1.4">
+            <classpath refid="dsig_globus_libraries"/>
+        </javac>
+    </target>
+    
+    
+    <target name="dsig_globus_opensaml" depends="dsig_globus">
+        <javac srcdir="${src_dsig_globus_opensaml}" destdir="${build_dsig_globus}" debug="on" source="1.4">
+            <classpath refid="dsig_globus_saml_libraries"/>
+        </javac>
+    </target>
+
+    <target name="dsig_globus_opensaml_client" depends="dsig_globus_opensaml,client">
+        <javac srcdir="${src_invoker_secure_soap_over_http}" destdir="${build_dsig_globus}" debug="on" source="1.4">
+            <classpath refid="dsig_globus_saml_libraries"/>
+            <classpath refid="puretls_libraries"/>
+            <classpath refid="client_libraries"/>            
+        </javac>
+    </target>
+
+    <target name="secconv_server" depends="dsig,rpc">
+        <javac srcdir="${src_ws_secconv_server}" destdir="${build_server}" debug="on" source="1.4">
+            <classpath refid="secconv_libraries"/>
+        </javac>
+    </target>
+    
+    <target name="secconv_client" depends="dsig,rpc">
+        <javac srcdir="${src_ws_secconv_client}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="secconv_libraries"/>
+        </javac>
+    </target>
+
+    <target name="secconv" depends="secconv_server, secconv_client" />
+    
+    <target name="alldsig" depends="dsig,dsig_globus,dsig_globus_opensaml,dsig_globus_opensaml_client" />
+
+    <target name="client_rpc" depends="common,client">
+
+        <!-- type handler abstraction to be used in RPC (primarily) -->
+        <javac srcdir="${src_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        
+        <!-- very simple RPC invocation and relfection based dispatching -->
+        <javac srcdir="${src_soaprpc_client}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+
+        <!-- set of typical type handlers -->
+        <javac srcdir="${src_xsd_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_soap11_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        <javac srcdir="${src_common_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+
+    </target>
+
+    <target name="rpc" depends="client_rpc,server">
+        <mkdir dir="${build_rpc}"/>
+        <javac srcdir="${src_soaprpc_server}" destdir="${build_rpc}" debug="on" source="1.4">
+            <classpath refid="client_server_libraries"/>
+        </javac>
+        
+    </target>
+
+   <target name="xwsdl" depends="common">
+        <mkdir dir="${build_xwsdl}"/>
+        <javac srcdir="${src_xwsdl}" destdir="${build_xwsdl}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        
+    </target>
+
+   <target name="xs" depends="common">
+        <mkdir dir="${build_xs}"/>
+        <javac srcdir="${src_xs}" destdir="${build_xs}" debug="on" source="1.4">
+            <classpath refid="common_libraries"/>
+        </javac>
+        
+    </target>
+
+   <target name="xwsdlc" depends="common,xwsdl">
+        <mkdir dir="${build_xwsdlc}"/>
+        <javac srcdir="${src_xwsdlc}" destdir="${build_xwsdlc}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xwsdlc_xbeans}" destdir="${build_xwsdlc}" debug="on" source="1.4">
+            <classpath refid="xwsdlc_xbeans_libraries"/>
+        </javac>
+        <jar jarfile="${xsul_xwsdlc_jar}">
+          <manifest>
+            <attribute name="Built-By" value="${user.name}"/>
+            <attribute name="Specification-Title" value="XSUL-xwsdlc"/>
+            <attribute name="Specification-Version" value="${SPEC_VERSION}"/>
+            <attribute name="Specification-Vendor" value="${VENDOR}"/>
+            <attribute name="Implementation-Title" value="XSUL-xwsdlc"/>
+            <attribute name="Implementation-Version" value="${VERSION}"/>
+            <attribute name="Implementation-Vendor" value="${VENDOR}"/>
+          </manifest>
+          <fileset dir="${build_xwsdl}"/>
+          <fileset dir="${build_xwsdlc}"/>
+        </jar>
+        
+    </target>
+
+   <target name="xwsif" depends="client_rpc,client_server,xwsdl,xs,msg_box">
+        <mkdir dir="${build_xwsif}"/>
+        <javac srcdir="${src_ws_addressing_xwsdl}" destdir="${build_xwsdl}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xwsif}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xwsif_provider_xsul_soap_http}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+
+        <javac srcdir="${src_xwsif_provider_xsul_soap_gsi}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+            <classpath refid="puretls_libraries"/>
+        </javac>
+        
+        <javac srcdir="${src_xwsif_dynamic_invoker}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xhandler}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xhandler_soap_sticky_header}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xhandler_drop_repeated_wsa_msg}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xhandler_wsa_convert}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xwsif_runtime_async}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xwsif_runtime}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xwsif_runtime_async_http}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+        </javac>
+        <javac srcdir="${src_xwsif_runtime_async_msgbox}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+            <classpath refid="msg_box_libraries"/>
+        </javac>
+        
+    </target>
+
+   <target name="wssec" depends="xwsif,dsig">
+        <mkdir dir="${build_xhandler_secure}"/>
+        <javac srcdir="${src_xhandler_secure}" destdir="${build_xhandler_secure}" debug="on" source="1.4">
+            <classpath refid="wssec_libraries"/>
+        </javac>
+   </target>
+   
+   <target name="xservo" depends="client_rpc,rpc,server,xwsdl,xs,xwsif,xbeans_util">
+        <mkdir dir="${build_xservo}"/>
+        <javac srcdir="${src_xservo}" destdir="${build_xservo}" debug="on" source="1.4">
+            <classpath refid="xservo_libraries"/>
+        </javac>
+        <javac srcdir="${src_xservo_soap}" destdir="${build_xservo}" debug="on" source="1.4">
+            <classpath refid="xservo_libraries"/>
+        </javac>
+        <javac srcdir="${src_xservices_xbeans}" destdir="${build_xservo}" debug="on" source="1.4">
+            <classpath refid="xservo_libraries"/>
+        </javac>
+        <javac srcdir="${src_xservo_soap_http}" destdir="${build_xservo}" debug="on" source="1.4">
+            <classpath refid="xservo_libraries"/>
+        </javac>
+    </target>
+
+    <target name="xbeans_util" depends="init">
+        <mkdir dir="${build_xbeans}"/>
+        <javac srcdir="${src_xbeans_util}" destdir="${build_xbeans}" debug="on" source="1.4">
+            <classpath refid="xbeans_libraries"/>
+        </javac>
+    </target>
+
+    <target name="xbeans" depends="rpc">
+        <mkdir dir="${build_xbeans}"/>
+        <javac srcdir="${src_xbeans_type_handler}" destdir="${build_xbeans}" debug="on" source="1.4">
+            <classpath refid="xbeans_libraries"/>
+        </javac>
+        <javac srcdir="${src_xbeans_document_dispatcher}" destdir="${build_xbeans}" debug="on" source="1.4">
+            <classpath refid="xbeans_libraries"/>
+        </javac>
+        <javac srcdir="${src_xbeans_document_invoker}" destdir="${build_xbeans}" debug="on" source="1.4">
+            <classpath refid="xbeans_libraries"/>
+        </javac>
+        <javac srcdir="${src_xbeans_secure_document_invoker}" destdir="${build_xbeans}" debug="on" source="1.4">
+            <classpath refid="xbeans_libraries"/>
+        </javac>
+        <javac srcdir="${src_epr_router}" destdir="${build_xbeans}" debug="on" source="1.4">
+            <classpath refid="xbeans_libraries"/>
+        </javac>
+    </target>
+
+    <target name="xwsif_xbeans" depends="xbeans_util,xwsif">
+        <javac srcdir="${src_xwsif_runtime_xbeans}" destdir="${build_xwsif}" debug="on" source="1.4">
+            <classpath refid="xwsdl_xs_libraries"/>
+            <classpath refid="xbeans_libraries"/>
+        </javac>
+    </target>
+
+    <target name="dispatcher" depends="rpc,msg_box">
+        <mkdir dir="${build_dispatcher}"/>
+        <javac srcdir="${src_dispatcher}" destdir="${build_dispatcher}" debug="on" source="1.4">
+            <classpath refid="all_libraries"/>
+        </javac>
+        <copy todir="${build_dispatcher}">
+            <fileset dir="${src_dispatcher}" excludes="**/*.java"/>
+        </copy>
+    </target>
+        
+    <target name="den" depends="dispatcher">
+      <mkdir dir="${build_den}"/>
+        <javac srcdir="${src_den}" destdir="${build_den}" debug="on" source="1.4">
+            <classpath refid="all_libraries"/>
+        </javac>
+        <copy todir="${build_den}">
+          <fileset dir="${src_den}" excludes="**/*.java"/>
+        </copy>
+    </target>
+
+    <target name="ws_secconv" depends="dsig_globus_opensaml">
+        <mkdir dir="${build_ws_secconv}"/>
+        <javac srcdir="${src_ws_secconv}" destdir="${build_ws_secconv}" debug="on" source="1.4">
+            <classpath refid="all_libraries"/>
+        </javac>
+    </target>
+
+    <target name="xpola" depends="dsig_globus_opensaml,rpc">
+        <mkdir dir="${build_xpola}"/>
+        <javac srcdir="${src_generated_java_intf}" destdir="${build_xpola}" debug="on" source="1.4">
+            <classpath refid="xpola_libraries"/>
+        </javac>
+        <javac srcdir="${src_xpola}" destdir="${build_xpola}" debug="on" source="1.4">
+            <classpath refid="xpola_libraries"/>
+        </javac>
+        <copy todir="${build_xpola}">
+          <fileset dir="${src_xpola}" includes="**/*.wsdl"/>
+        </copy>
+    </target>
+
+    <target name="jar" depends="compile">
+      <!-- core that does nto need XmlBeans -->
+      <jar jarfile="${xsul_lite_jar}">
+        <manifest>
+          <attribute name="Built-By" value="${user.name}"/>
+          <attribute name="Specification-Title" value="XSUL-lite"/>
+          <attribute name="Specification-Version" value="${SPEC_VERSION}"/>
+          <attribute name="Specification-Vendor" value="${VENDOR}"/>
+          <attribute name="Implementation-Title" value="XSUL-lite"/>
+          <attribute name="Implementation-Version" value="${VERSION}"/>
+          <attribute name="Implementation-Vendor" value="${VENDOR}"/>
+        </manifest>
+        <fileset dir="${build_common}"/>
+        <fileset dir="${build_client}"/>
+        <fileset dir="${build_server}"/>
+        <fileset dir="${build_puretls}"/>
+        <fileset dir="${build_dsig}"/>
+        <fileset dir="${build_dsig_globus}"/>
+        <fileset dir="${build_rpc}"/>
+        <fileset dir="${build_xwsdl}"/>
+        <fileset dir="${build_xs}"/>
+        <fileset dir="${build_xwsif}"/>
+        <fileset dir="${build_xservo}"/>
+        <fileset dir="${build_xbeans}"/>
+        <fileset dir="${build_ws_secconv}"/>
+        <fileset dir="${build_dispatcher}"/>
+        <fileset dir="${build_msg_box}"/>
+      </jar>
+      <!-- Everything including jar file generated by XmlBeans -->
+      <jar jarfile="${xsul_all_jar}">
+        <manifest>
+          <attribute name="Built-By" value="${user.name}"/>
+          <attribute name="Specification-Title" value="XSUL"/>
+          <attribute name="Specification-Version" value="${SPEC_VERSION}"/>
+          <attribute name="Specification-Vendor" value="${VENDOR}"/>
+          <attribute name="Implementation-Title" value="XSUL"/>
+          <attribute name="Implementation-Version" value="${VERSION}"/>
+          <attribute name="Implementation-Vendor" value="${VENDOR}"/>
+          <!-- <attribute name="Main-Class" value="${pkgPath}${mainClass1}"/> -->
+        </manifest>
+        <fileset dir="${build_den}"/>
+        <fileset dir="${build_xhandler_secure}"/>
+        <fileset dir="${build_xpola}"/>
+        <!-- ANT 1.6.2 or later is required -->
+        <!-- http://ant.apache.org/manual/CoreTasks/zip.html -->
+        <zipgroupfileset dir="." includes="${lib_generated_types}"/>
+        <zipgroupfileset dir="." includes="${xsul_lite_jar}"/>
+        <!--fileset dir="${build_generated}"/-->
+      </jar>
+      <jar jarfile="${xsul_client_jar}">
+        <manifest>
+          <attribute name="Built-By" value="${user.name}"/>
+          <attribute name="Specification-Title" value="XSUL-client"/>
+          <attribute name="Specification-Version" value="${SPEC_VERSION}"/>
+          <attribute name="Specification-Vendor" value="IU Extreme! Lab"/>
+          <attribute name="Implementation-Title" value="XSUL-client"/>
+          <attribute name="Implementation-Version" value="${VERSION}"/>
+          <attribute name="Implementation-Vendor" value="IU Extreme! Lab"/>
+        </manifest>
+        <fileset dir="${build_common}"/>
+        <fileset dir="${build_client}"/>
+      </jar>
+    </target>
+
+
+
+
+    <!-- SAMPLES -->
+    <target name="samples" depends="jar">
+        <mkdir dir="${build_samples}"/>
+        <javac srcdir="${src_samples}" destdir="${build_samples}" debug="on" source="1.4"
+          excludes="xsul_sample_wsa/**"
+        >
+            <classpath refid="all_libraries"/>
+        </javac>
+        <copy todir="${build_samples}">
+            <fileset dir="${src_samples}" includes="**/*.wsdl"/>
+        </copy>
+    </target>
+
+    <target name="samplejar" depends="samples">
+      <jar jarfile="${xsul_samples_jar}">
+        <fileset dir="${build_samples}"/>
+      </jar>
+    </target>
+
+    <!-- TESTS -->
+    <target name="tests" depends="check_junit,compile" if="junit_present">
+        <mkdir dir="${build_tests}"/>
+        <javac srcdir="${src_tests}" destdir="${build_tests}" debug="on" source="1.4">
+            <classpath refid="all_libraries"/>
+        </javac>
+        <copy todir="${build_tests}">
+            <fileset dir="${src_tests}" includes="**/*.wsdl"/>
+        </copy>
+    </target>
+
+    <target name="bindist" depends="samplejar">
+            <echo message="Making binary distribution '${VERSION}'"/>
+            <property name="bindistname" value="xsul-${VERSION}-bin"/>
+            <property name="bindistdir" value="${bindistname}/${bindistname}"/>
+            <zip destfile="${bindistname}.zip" >
+              <zipfileset dir="${lib}" prefix="lib"/>
+              <zipfileset dir="${build}" includes="*.jar" prefix="lib"/>
+              <fileset dir="." includes="*.cmd"/>
+            </zip>
+    </target>
+
+    <target name="junit" depends="tests" if="junit_present">
+      <java classname="xsul.AllTests"
+          classpathref="all_libraries"
+          fork="yes"
+          failonerror="true"
+          >
+      </java>
+    </target>
+
+
+   <!-- API docs (Javadoc) -->
+
+  <target name="api" depends="apidoc"/>
+  <target name="apidoc" depends="compile">
+    <delete dir="${build_apidoc}"/>
+    <mkdir dir="${build_apidoc}"/>
+    <javadoc source="1.4"
+             public="yes"
+             destdir="${build_apidoc}"
+             author="true"
+             version="true"
+             use="true"
+             windowtitle="${ant.project.name} Version: ${VERSION}"
+             doctitle="${ant.project.name}"
+             bottom="${VENDOR}"
+    >
+      <packageset dir="${src}" defaultexcludes="yes">
+        <include name="*/*/**"/>
+     </packageset>
+      <fileset  dir="${src}" defaultexcludes="yes">
+        <include name="*/*/**/*.java"/>
+     </fileset>
+     <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+    </javadoc>
+  </target>
+
+
+
+   <!-- code generation -->
+
+   <target name="generate" depends="xwsdlc">
+        <taskdef name="xwsdlc" classname="xsul.xwsdl_compiler_xbeans.Xwsdlc">
+            <classpath refid="xwsdlc_libraries"/>
+        </taskdef>
+        <delete dir="${build_tmp}"/>
+        <mkdir dir='${build_generated_tmp_java_intf}'/>
+        <mkdir dir='${build_generated_tmp_xmlbeans}'/>
+        <mkdir dir='${build_generated_tmp_xmlbeans_typelib}'/>
+        <xwsdlc
+            wsdlgendir="${build_generated_tmp_java_intf}"
+            destfile="${build_generated_tmp_lib_types}"
+            srcgendir="${build_generated_tmp_xmlbeans}"
+            debug="on">
+             <classpath refid="xwsdlc_libraries"/>
+             <fileset dir="${src}" >
+                 <include name="**/*.wsdl" />
+                 <include name="**/*.wsdlconfig" />
+                 <include name="**/*.xsd" />
+                 <include name="**/*.xsdconfig" />
+             </fileset>
+        </xwsdlc>
+        <!-- after generation is succesfully finised now can safely copy generated artifacts -->
+        <mkdir dir='${src_generated_java_intf}'/>
+        <mkdir dir='${src_generated_xmlbeans}'/>
+        <mkdir dir='${src_generated_xmlbeans_typelib}'/>
+        <delete>
+            <fileset dir="${src_generated_java_intf}" defaultexcludes="no">
+                <include name="**/*.java" />
+            </fileset>
+            <fileset dir="${src_generated_xmlbeans}" defaultexcludes="no">
+                <include name="**/*.java" />
+            </fileset>
+        </delete>
+        <copy todir="${src_generated}">
+            <fileset dir="${build_tmp}/${src_generated}" includes="**/*"/>
+        </copy>
+        <delete dir="${src_generated_xmlbeans}/schema"/>
+   </target>
+
+   <target name="generate-testwsdl" depends="xwsdlc">
+        <taskdef name="xwsdlc" classname="xsul.xwsdl_compiler_xbeans.Xwsdlc">
+            <classpath refid="xwsdlc_libraries"/>
+        </taskdef>
+        <xwsdlc
+            binding="xpp3"
+            wsdlgendir="${src_tests}"
+            debug="on">
+             <classpath refid="xwsdlc_libraries"/>
+             <fileset dir="${src_tests}" >
+                 <include name="xsul/aync_msg/*.wsdl" />
+                 <include name="xsul/aync_msg/*.xsdconfig" />
+             </fileset>
+        </xwsdlc>
+   </target>
+
+  <target name="dist_repository" depends="jar" if="dist_repository_present">
+
+
+    <copy todir="${dist_repository}/jars">
+      <fileset dir="${build}">
+        <include name="xsul*.jar"/>
+      </fileset>
+    </copy>
+
+    <!--copy todir="${dist_repository}/distributions">
+      <fileset dir="${build}/dist">
+        <include name="${xsoap_version}*.tgz"/>
+        <include name="${xsoap_version}*.zip"/>
+      </fileset>
+    </copy-->
+
+
+  </target>
+
+  <target name="dist" depends="dist_repository"/>
+  <target name="repo" depends="dist"/>
+  
+</project>
+

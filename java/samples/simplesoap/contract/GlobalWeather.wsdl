@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="GlobalWeather"
+targetNamespace="http://www.capeclear.com/GlobalWeather.wsdl"
+xmlns="http://schemas.xmlsoap.org/wsdl/"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:tns="http://www.capeclear.com/GlobalWeather.wsdl"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+        <message name="getWeatherReport">
+                <part name="code" type="xsd:string"/>
+        </message>
+        <message name="getWeatherReportResponse">
+                <part name="return" type="xsd:any"/>
+        </message>
+        <portType name="GlobalWeather">
+                <operation name="getWeatherReport">
+                        <input message="tns:getWeatherReport"/>
+                        <output message="tns:getWeatherReportResponse"/>
+                </operation>
+        </portType>
+        <binding name="GlobalWeather" type="tns:GlobalWeather">
+                <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+                <operation name="getWeatherReport">
+                        <soap:operation soapAction="capeconnect:GlobalWeather:GlobalWeather#getWeatherReport"/>
+                        <input>
+                                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                                  namespace="capeconnect:GlobalWeather:GlobalWeather" use="encoded"/>
+                        </input>
+                        <output>
+                                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                                  namespace="capeconnect:GlobalWeather:GlobalWeather" use="encoded"/>
+                        </output>
+                </operation>
+        </binding>
+        <service name="GlobalWeather">
+                <documentation>GlobalWeather</documentation>
+                <port binding="tns:GlobalWeather" name="GlobalWeather">
+                        <soap:address location="http://live.capescience.com:80/ccx/GlobalWeather"/>
+                </port>
+        </service>
+</definitions>
+

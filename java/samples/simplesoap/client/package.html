@@ -1,0 +1,48 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html">
+</head>
+<body bgcolor="#FFFFFF">
+<p>Demonstrate different ways to interact with Web Services using RPC and Message style interfaces.
+</p>
+
+<h3>Dynamic Invocations</h3>
+
+<p>Use XsulDynamicInvoker to invoke WSDL directly (no code or compilation required).
+</p>
+
+
+<h3>Simple RPC<h3>
+
+<p>
+<a href="InteropRpc.java">InteropRpc.java</a>
+</p>
+
+<p>Use xwsdlc to generate Java interface that is used to interact with Web Serice
+- message parts are mapped to Java types.
+</p>
+
+<h3>RPC with complext types<h3>
+
+<p>
+<a href="WeatherRpc.java">WeatherRpc.java</a>
+</p>
+
+
+<h3>Message style<h3>
+
+<p>
+<a href="WeatherMsg.java">WeatherMsg.java</a>
+</p>
+
+<p>Use xwsdlc to generate Java interface (--type=message) that is used to interact with Web Serice
+- whole XML message can be manipullated.
+</p>
+
+
+<br />
+Last modified: $Id: package.html,v 1.2 2005/01/10 19:45:45 aslom Exp $
+
+</body>
+</html>

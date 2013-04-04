@@ -1,0 +1,21 @@
+<definitions targetNamespace="http://portal.extreme.indiana.edu/20030301/"
+             xmlns:tns="http://portal.extreme.indiana.edu/20030301/"
+	     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+   <message name="StringMessageType">
+      <part name="xdirString" type="xsd:string"/>
+   </message>
+
+   <portType name="EchoService">
+      <operation name="sayHello">
+         <input message="tns:StringMessageType"/>
+         <output message="tns:StringMessageType"/>
+      </operation>
+   </portType>
+
+   <!-- The service name and the TNS represent my service ID QName -->
+   <service name="EchoService">
+   </service>
+
+</definitions>

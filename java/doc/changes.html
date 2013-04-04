@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
+<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
+<title>XSUL2 Changes
+</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="author" content="Aleksander Slominski [http://www.extreme.indiana.edu/~aslom]">
+</head>
+<body bgcolor="white">
+
+<h1>Changes to XSUL2</h1>
+
+
+<h3>2006-06- (XSUL_2_7_xxx)</h3>
+
+<ul>
+<li>2006-8-29 (2.7.4)
+modified XmlNameValueList to have better default constructor and
+to be easily converted to XmlBeans XmlObject and back.
+</li>
+
+<li>2006-8-29 (2.7.4) <strong>backward incompatible change</strong>
+updated MessageContext - removed setIncomingEnvelope() (only used once),
+added getIncomingEnvelopeDoc() (it will add XML Decl if not present),
+and chanfed getIncomingEnvelope() to work off getIncomingMessage() to find top level XmlElement
+and assume it is "envelope" (thanks Srinath for pointing out those problems!)
+</li>
+</ul>
+
+
+<h3>2006-06- (XSUL_2_6_xxx)</h3>
+
+<ul>
+<li>2006-6-20 (2.6.11)
+allow &lt;complexType/> in XWSIF pre-parsing
+</li>
+
+<li>2006-6-18 (2.6.10)
+added utility function <code>XmlObject XBeansUtil.xmlElementToXmlObject(XmlPullParser)</code>
+that converts XML event (sub)stream (XmlPullParser) into XmlBeans XmlObject
+</li>
+
+<li>2006-06-10 (2.6.8):
+made WsdlResolver return cloned WSDLs to avoid possibility WSDL is corrupted
+by multiple threads editing the same WSDL ...
+</li>
+
+<li>2006-06-06 (2.6.4; XSUL_2_6_4 ):
+added ability to set service name and version displayed when using browser to access service endpoint:
+use <code>HttpBasedServices.setServerName()</code>;
+for example
+<code>httpServices.setServerName("MyServerName/1.0.1")</code>
+and handy way to maintain version for services in sync with XSUL:
+<code>httpServices.setServerName("MyServerName/"+XsulVersion.getImplementationVersion())</code>.
+</li>
+
+<li>XHTML page for started XSUL service will give list of services and their WSDLs
+</li>
+
+<li>
+added utility method to get location of WSDL for a service hosted by XWSIF servo:
+<code>String HttpBasedServices.getServiceWsdl(String serviceName)</code>
+</li>
+
+<li>2006-06-05 (2.6.3):
+fixed problem with too "sticky" headers,
+added class xsul.lead.XmlNameValueList with support for xml-name-value-list
+to LEAD module (easy to convert Properties to XML and back)
+</li>
+
+<li>
+<strong>backward incompatible change</strong>:
+REMOVED properties file URL to lead:context header
+</li>
+
+<li>2006-05-31 (2.6.1):
+added properties file URL to lead:context header,
+added XML schema for content of the lead:context header,
+renamed and changed some other fields (in particular workflow/service-instance-id)
+and requires that service type is WSDL target namespace URI not QName ...
+</li>
+
+<li>2006-05-24:
+allow to retrieve QName of part types (insofar as limited understanding of XS by XWSIF)
+use this in dynamic invoker to provide default parameter values
+</li>
+
+<li>2006-05-01 (2.5.6): MsgBox will try to guess WS-Addressing version used by client in incoming SOAP messages
+and return EPR with the same version of WSA NS.
+</li>
+
+<li>2006-04-30 (2.5.5): WsaInvoker will use the same WSA namespace that target EPR is using unless
+invoker.setTargetWsa() is called
+</li>
+
+<li>2006-04-30 (2.5.4): replaced "Envelope" and "Header" with const, more WS-Addressing tests
+(in particular compare whole XML trees after WSA conversions)
+</li>
+
+<li>2006-04-29 (2.5.3_p1): updated and tested support for WS-Addressing 1.0
+(basics work but more testing required in future)
+For backward compatibility WsaEndpointReference and WsaMessageInformationHeaders allows
+to specify WSA namespace to use when constructing WSA content.
+</li>
+
+<li>2006-04-29: modules/ws_adressing_detect_duplicates
+WsaDetectDuplicateMessageId.seenMessageId() unit tested with TestDetectMessageIdDuplicates
+</li>
+
+<li>2006-04-29: modules/ws_adressing_detect_duplicates
+WsaConverter.convert() unit tested with TestWsaConversion
+</li>
+
+<li>2006-04-19 (2.5.2): modules/xhandler_wsa_convert
+WsAddressingConverterHandler
+</li>
+
+<li>2006-04-19: modules/xhandler_drop_repeated_wsa_msg
+DropDuplicateMessageHandler
+</li>
+
+<li>2006-04-18: modules/xwsif_provider_xsul_soap_gsi
+new WSIF provider that can use GSI credentials to open https:// connection
+</li>
+<li>2006-04-18: modules/invoker_https_gsi xsul.invoker.gsi.GsiInvoker
+new invoker based on HttpsInvoker from GFac
+that provides TLS/SSL https:// connection using GSI credentials
+</li>
+<li>2006-04-18: modified XWSIF to provide more diagnostic in case when there is no provider available
+(this is the most common error in WSIF: no provider for WSDL ...)
+</li>
+<li>2006-04-18: <strong>backward incompatible change</strong> renamed Util to XsulUtil
+</li>
+<li>2006-04-18: <strong>backward incompatible change</strong> moving to final version of W3C WS-Addressing
+</li>
+</ul>
+
+<h3>2006-03- (XSUL_2_3_xxx)</h3>
+
+<ul>
+<li>2006-03-22: code moved to XmlBeans2 - compiles OK including xwsdc but not very well tested
+</li>
+<li>2006-03-22: minor error diagnostic improvements to BASE64 utility classes
+</li>
+</ul>
+
+<h3>2006-03-22 (XSUL_2_1_18)</h3>
+
+<ul>
+<li>2006-03-22: tagged XSUL_2_1_18 as it is the last version that uses XmlBeans1
+</li>
+
+<li>2006-02-19:
+<b>added <samp>isRequestResponseOperation()</samp> to <samp>WSIFOperation</samp> class</b>
+(that is extension when comparing to Apache WSIF API)
+so it is easier to know if operation is request-response or one-way.
+Otherwise one would need to walk WSDL and find if it had output message
+in an operation declared by walking WSDL.
+<br/>
+The same result can be obtained in XSUL: if createOutputMessage()
+returns null in then there is no output message (so it is input only message!)
+but that is somewhat not documented (though it works!)
+as <samp>executeRequestResponseOperation(in, null, null)</samp> is equivalent to
+<samp>executeInputOnlyOperation(in)</samp>
+</li>
+
+<li>2006-02-19:
+<b>one-way invocation in XWSIF API should now work</b> ...
+applied fixes to other problems reported by Shan (Shanmuga.MUHUNTHAN)
+mostly about XSUL not reusing sockets but it is still not fixed for one-way
+response messages (will require using thread pool maybe from util_concurrent)
+</li>
+
+<li>2006-02-07 (XSUL_2_1_17): modules/invoker_over_http
+added system property <samp>http_transport.client.disable.default.ka</samp>
+(use <code>-Dhttp_transport.client.disable.default.ka</code>)
+to disable by default for HTTP client Keep-Alive.
+If this property is not set the default is to send Keep-Alive header
+but still calling <code>setKeepAlive(boolean)</code> on the invoker
+(in <samp>HttpDynamicInfosetInvoker</samp> and derived) will override the default.
+</li>
+
+
+<li>2005-12-05: modules/common
+changed FastUUIDGen to use java.util.Random instead of java.security.SecureRandom
+as SecureRandom it tends to block (indefinitely?) on dual processor AMD Opteron
+machines (tested with tyr cluster - to be sure we need more data points ...).
+Workaround to set <samp>-Djava.security.egd=file:/dev/urandom</samp>
+(described in
+<a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4705093">Bug ID: 4705093
+Use /dev/urandom rather than /dev/random if it exists.</a> does not help ...
+To run simple performance test set classpath and execute
+<samp>java xsul.util.FastUUIDGen</samp>
+</li>
+
+<li>2005-12-05: modules/xwsdl_compiler
+changed xwsdlc to generate XWSDLC_PORTTYPE_QNAME in Java interfaces for metadata
+(ex.: <samp>public final static QName XWSDLC_PORTTYPE_QNAME = new QName("http://www.extreme.indiana.edu/lead", "Adder");</samp>)
+</li>
+
+<li>2005-12-05: modules/ws_addreessing
+made it configurable
+what WS-Addressing is used in JVM
+<samp>WsAddressing.setDefaultNs.(WsAddressing.NS_2004_08|NS_2004_03</samp>
+and allows to pass WS Addressing namespace to use by WsaEndpointReference
+(<samp>WsaEndpointReference(XmlNamespace wa, URI address)</samp>)
+</li>
+
+<li>2005-12-05: modules/ws_addreessing
+added <samp>WsaEndpointReference.addInvokers(String protocol, DynamicInfosetInvoker invoker)</samp>
+like <samp>wsaInvoker.addInvokers("soap.tcp://", soapTcpInvoker)</samp>
+</li>
+
+<li>2005-11-18: improved XWSIF Client/Service implementation to send WS-Addressing headers
+even for simple non-async HTTP request-response as it is useful even in this case
+to have unique messageID assigned for each SOAP envelope.
+</li>
+
+<li>2005-11-18:
+new module for LEAD related functionality in XSUL (so it is easy to access anywhere XSUL is used).
+Currently only LeadContextHeader
+(<a href="modules/lead/xsul/lead/package.html">documentation</a>)
+but more may be added in future here.
+</li>
+
+<li>2005-11-17: refactored WISF to allow direct access to WSIFPort through WSIFClient.getPort() so
+all XSUL handlers can be used with WSIF.
+</li>
+
+<li>2005-07-14: two new system properties controlling default timeout for server socket connection
+(<code>-Dhttp_transport.server.timeout.ms=...</code>)
+and ability to disable support for HTTP Keep-Alive on server side
+(<code>-Dhttp_transport.server.disable.ka</code>)
+This option is good for
+servers under very heavy load as number of sockets for connections is limited by OS
+so no connections are allowed to hang open but immediately closed to allow new clients)
+</li>
+
+<li>2005-07-12 (XSUL_2_1_7) added support for system property <code>http_transport.client.timeout.ms</code>
+to specify socket timeout used in HttpDynamicInfosetInvoker
+</li>
+
+</ul>
+
+
+<h3>2005-06-16 (XSUL_2_1_3)</h3>
+
+<ul>
+
+<li>2.1.3: in theory nothing should have changed - i have refactored XmlBeansBasedService
+so it is based on new class XSoapDocLiteralService that supports doc/literal with XmlElement
+(whereas XmlBeansBasedService supports doc/literal with XmlObject)<br>
+<b>NOTE:</b> n client side it is very important to have generated interface
+(from WSDL PortType) to extend xsul.xwsif_runtime.<b>XmlElementBasedStub</b> so
+invocation will be done using doc/literal (XmlElement message is sent directly)
+instead of RPC/literal (XmlElement message will be wrapped in element that has
+method name)</li>
+
+<li>2.1.3: added xsul.xhandler_soap_sticky_header.StickySoapHeaderHandler that allows
+to automatically propagate SOAP headers and to access them through local thread context
+using StickySoapHeaderHandler.getHeaderAs(Class headerType, QName headerQName)</li>
+
+<li>2.1.3: WSIFClient API supports now useAsyncMessaging( correlator ).
+If not null correlator is passed then it is used to add correlation info
+to message (WSIFAsyncResponsesCorrelator.addCorrelationToOutgoingMessage())
+and WSIF client runtime will use correlator to receive response message
+through callback (registerCallback/unregisterCallback is called internally).
+The support is transparent: the call will still look like RPC even though it may
+be executed using one-way messages and even intermediaries.<br>
+There are two correlators implemented: XsulSoapHttpWsaResponsesCorrelator starts
+a web server on client side and uses it to receive callback and
+XsulMsgBoxWsaResponsesCorrelator uses WS-MsgBox service to create a message box
+that is used to receive response and the response is pulled by the correlator
+periodically</li>
+<li>2.1.3: service will now automatically send asynchronous response
+if incoming message has non-default ReplyTo location.
+In such case HTTP 202 OK with empty content is returned immediately (One-Way HTTP)
+and execution continues in a separate thread (that will run handlers on incoming message,
+call service, run handlers in reverse order on outgoing message and actually send
+response message)
+</li>
+
+</ul>
+
+
+<h3>2005-02 (XSUL_2_0_x)</h3>
+
+<ul>
+<li>new API that supports handlers added</li>
+</ul>
+
+<h3>2004-12 (XSUL_1_1_13+)</h3>
+
+<ul>
+
+<li>
+2004-12-03: as Satoshi suggested deprecated XsulException.getDetail() and using
+getCause() is now recommended</li>
+
+<li>
+2004-12-03: <b>XWSIF: removed WSIFException.setTargetException() </b>&nbsp;-
+side effect of unified exception model with Throwable.getCause() (no more
+getDetail())</li>
+
+<li>
+2004-11-07: <b>XWSIF: XML Schemas support improved</b>:
+better understand doc/literal element/complexType/sequence,
+supports elementFormDefault=qualified, tested with more WSDL files
+</li>
+
+<li>
+2004-10-04: <b>potentially backward incompatible change</b>:
+<code>SoapRpcInvocationHandler</code> and <code>SoapRpcReflectionBasedService</code>
+changed so they can recognize XmlElement(Adapter) parameters
+and in case of classes derived from XmlElementAdapter
+automatically recreated derived class instead of XmlElement!
+(public constructor with one XmlElement parameter is required in XmlElementAdapter)
+</li>
+
+</ul>
+
+<h3>2004-10-04 (XSUL_1_1_8)</h3>
+
+<ul>
+<li>
+2004-09-17: <b>backward incompatible change</b>: newer version of ANT may be required (tested with 1.6.2)
+as VERSION in build.xml is determined automatically by compiling and executing modules/common/xsul/Version.java
+</li>
+
+<li>
+2004-08-24: <b>backward incompatible change</b>: SoapUtil was changed to
+abstract class from interface</li>
+<li>2004-06-07: <b>backward incompatible change</b>:
+changed to use WS-Addressing 2004 and not 2003</li>
+<li>2004-06-06: improved handling of SOAP 1.1/1.2 encoding (it is complicated which
+is one more indicator that SOAP encoding should not be used...) </li>
+<li>2004-05-12:&nbsp; added XWSDL, XWSIF (incomplete) and sample google to
+demonstrate API in action</li>
+<li>2004-04-16: improved HTTP and WS-Addressing handling
+<br /><b>backward incompatible change</b>: xsul.util.QNameElText replaces QNameEl
+</li>
+<li>
+<p>2004-03-30: after upgrading lib to latest form CoG 1.1 TLS/SSL code does not
+work with puretls.jar - to run sample code with TLS it is required to use
+original jar file from PureTLS website</p></li>
+</ul>
+
+<h3>2004-03-30 (XSUL_1_0_2)</h3>
+
+<ul>
+        <li>added <a href="http://www.rtfm.com/puretls/">PureTLS</a> based transport
+        and modified samples/xsul_perf to tests its performance</li>
+</ul>
+<h3>2004-03-16 (XSUL_1_0_1)</h3>
+
+<ul>
+<li><p>
+performance improvements: eliminated use of DataInputStrea.readLine(),
+use parser pool, and use faster UTF8 reader/writer (custom Utf8Writer/Reader).
+</p></li>
+</ul>
+
+<h3>2004-03-06 (XSUL_1_0_0)</h3>
+
+<ul>
+        <li>
+        <p>2004-3-6: 1.0.0 version was released
+        </p>
+        </li>
+
+        <li>
+        <p>2004-3-6: <b>backward incompatible change</b>
+        changed <b>processSoapEnvelope(XmlElement)</b> in SoapHttpDynamicInfosetProcessor
+        to <b>processSoapEnvelope(XmlElement, SoapUtil)</b>
+        </p>
+        </li>
+
+        <li>
+        <p>2004-3-4: keep-alive is used by default in invoker</p>
+        </li>
+
+        <li>
+        <p>2004-3-4: added xsul.common_type_handler.CommonTypeHandlerRegistry to
+        provide easy to use set of common type mappings (currently some XSD
+        primitive types and SOAP 1.1 arrays)</p>
+        </li>
+
+        <li>
+        <p>2004-3-1: <b>backward incompatible change</b>
+        refactored SOAP support to unify 1.1 and 1.2 - oodles and oodles of changes;
+        generally Soap11* was replaced by Soap and modules <b>invoker.soap11_over_http</b>
+        and <b>processor.soap11_over_http</b> by <b>
+        invoker_soap_over_http</b>
+
+        and <b>processor.soap_over_http</b></p>
+        </li>
+
+
+        <li>
+        <p>2004-2-19: added test for one way HTTP messaging, various bug fixes to make it work
+
+        </p>
+        </li>
+        <li>
+        <p>2004-2-18: added Keep-Alive support with HttpClientReuseLastConnectionManager
+
+        </p>
+        </li>
+
+        <li>
+        <p>2004-2-7: removed use of SimpleIterator replaced with standard java.util.Iterator
+        (this is consistent with JDK 1.5 change)
+        </p>
+        </li>
+
+        <li>
+        <p>2004/01/22: moved XmlConstants.NS_URI_SOAP11 to Soap11Util</p>
+        </li>
+
+        <li>
+        <p>in preparation to support SOAP 1.2 moving SOAP independent code of
+        invoker/processor_soap11_over_http to new&nbsp; invoker/processor_over_http
+        modules</p>
+        </li>
+        <li>
+        <p>added DataValidation interface to support validation of data model
+        expressed in XML Infoset</p>
+        </li>
+        <li>
+        <p>new soap11 module, moved Soap11Util from common to a separate SOAP 1.1
+        module</p>
+        </li>
+        <li>
+        <p>general code base refactoring: splitting invoker/processor into
+        MessageInvoker/Processor that works on XmlElement and
+        DynamincInfosetInvoker/Processor that works with whole XML document</p>
+        </li>
+</ul>
+
+
+
+
+<h2 id="more">Do you want to learn more about XSUL?</h2>
+
+<p>Make sure to visit
+<a href="http://www.extreme.indiana.edu/xgws/xsul/">WS/XSUL main page</a>,
+read source code, check interop sample, and
+
+<a href="http://www.extreme.indiana.edu/xgws/xsul/#contact">contact us with your questions</a>.
+</p>
+
+<hr />
+<!-- Footer -->
+<table border="0" width="100%">
+<tr>
+<td align="left" width="25%">
+<address><a href="http://www.extreme.indiana.edu/~aslom/">Aleksander Slominski</a> </address>
+</td>
+<td align="right" width="25%">
+<font size="-2"><i>
+Last modified: $Id: changes.html,v 1.61 2006/08/29 18:25:57 aslom Exp $
+</i></font>
+
+</td>
+</tr>
+</table>
+<a href="http://validator.w3.org/check/referer">
+<img src="validxhtml.gif" alt="Valid XHTML 1.0!" height="17" width="82" border="0" align="right" /></a>
+
+
+<div class="spacer">
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
+
+
+</body>
+</html>
+

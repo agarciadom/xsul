@@ -11,16 +11,22 @@ package xsul.dsig.globus;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
+
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.xml.security.Init;
 import org.apache.xml.security.algorithms.SignatureAlgorithm;
-import org.apache.xml.security.c14n.Canonicalizer;
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.apache.xml.security.keys.KeyInfo;
 import org.apache.xml.security.keys.content.X509Data;
@@ -32,7 +38,6 @@ import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.HexDump;
 import org.apache.xml.security.utils.XMLUtils;
 import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
-import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xpath.CachedXPathAPI;
 import org.globus.gsi.CertUtil;
 import org.globus.gsi.GlobusCredential;
@@ -41,6 +46,7 @@ import org.globus.gsi.proxy.ProxyPathValidatorException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
 import xsul.MLogger;
 import xsul.XsulException;
 import xsul.dsig.SOAPEnvelopeVerifier;
@@ -200,19 +206,13 @@ public class GlobusCredSOAPEnvelopeVerifier extends SOAPEnvelopeVerifier {
     }
     
     
-    public SignatureInfo verifySoapMessage(Document envelope)
-        throws XsulException {
+    public SignatureInfo verifySoapMessage(Document envelope)throws XsulException {
         try {
             Document doc = envelope;
             
             // only if the log level == FINEST -- serialization takes time!
             if(logger.getLevel().equals(MLogger.Level.ALL)) {
-                OutputStream baos = new ByteArrayOutputStream();
-                XMLSerializer serializer = new XMLSerializer (
-                    new PrintWriter(baos) , null);
-                serializer.asDOMSerializer();
-                serializer.serialize(envelope);
-                logger.finest("SIGNATUR2_XML_START\n"+XsulUtil.printable(baos.toString())+"\nSIGNATUR2_XML_END\n");
+            	logger.finest("SIGNATUR2_XML_START\n" + toString(envelope)  + "\nSIGNATUR2_XML_END\n");
             }
             
             CachedXPathAPI xpathAPI = new CachedXPathAPI();
@@ -234,14 +234,7 @@ public class GlobusCredSOAPEnvelopeVerifier extends SOAPEnvelopeVerifier {
             KeyInfo info = sig.getKeyInfo();
             
             sig.getSignedInfo().addResourceResolver(getResourceResolver());
-//            if(logger.getLevel().equals(MLogger.Level.ALL)) {
-//                ByteArrayOutputStream serializedSignatureElement = new ByteArrayOutputStream();
-//                XMLUtils.outputDOM(sig.getElement(), serializedSignatureElement);
-//                logger.finest("signatureElem2=\n"+serializedSignatureElement.toString());
-//                serializedSignatureElement.close();
-//            }
-//            logger.finest("old sig verified?: "+sig.getSignedInfo().verify(false));
-            
+
             X509Certificate[] certs = null;
             if (info.containsX509Data()) {
                 logger.info("keyinfo contains x509 data");
@@ -274,28 +267,6 @@ public class GlobusCredSOAPEnvelopeVerifier extends SOAPEnvelopeVerifier {
             }
             
             sig.setFollowNestedManifests(false);
-            // select form list of trusted certificates only that could be used to certify signing key
-            //TrustedCertificates tc = TrustedCertificates.getDefaultTrustedCertificates();
-            //X509Certificate[] trustedCerts = tc.getCertificates();
-            //            if(trustedCerts != null) {
-            //                String subjectDnAsString = subjectDn.toString();
-            //                for(int i = 0; i < trustedCerts.length; i++) {
-            //                    X509Certificate trustedCert = trustedCerts[i];
-            //                    String trustedCertIssuerDn = trustedCert.getIssuerDN().toString();
-            //                    // cut off cn=...
-            //                    int pos;
-            //                    if((pos = trustedCertIssuerDn.toLowerCase().lastIndexOf(",cn=")) != -1) {
-            //                        trustedCertIssuerDn = trustedCertIssuerDn.substring(0, pos);
-            //                    }
-            //                    if(subjectDnAsString.indexOf(trustedCertIssuerDn) >= 0) {
-            //                        Key pk = trustedCert.getPublicKey();
-            //                        verify = checkSignatureValue( sig, pk );
-            //                    }
-            //                    if(verify) {
-            //                        break;
-            //                    }
-            //                }
-            //            }
             Principal subjectDn = certs[0].getSubjectDN();
             
             if(trustedCerts != null) {
@@ -326,15 +297,6 @@ public class GlobusCredSOAPEnvelopeVerifier extends SOAPEnvelopeVerifier {
                             +" using "+certs[0]);
                 }
             }
-            
-            //boolean verify = sig.checkSignatureValue(certs[0]);
-            
-            //            if (!sig.checkSignatureValue(certs[0])) {
-            //                throw new XsulException(
-            //                    "failed signature check - signature can not be validated by certifcate "+certs[0]);
-            //            }
-//
-            
             logger.finest("The signature is valid");
             
             
@@ -342,10 +304,20 @@ public class GlobusCredSOAPEnvelopeVerifier extends SOAPEnvelopeVerifier {
             return extractSignatureInfo(subjectDn, signatureElem);
         }
         catch (Exception e) {
-        	e.printStackTrace();
+        	logger.severe(e.getMessage(), e);
             throw new XsulException("could not verify signature "+e, e);
         }
     }
+
+	private String toString(Document envelope) throws TransformerException,
+			TransformerConfigurationException,
+			TransformerFactoryConfigurationError {
+		StringWriter sW = new StringWriter();
+		TransformerFactory.newInstance().newTransformer()
+				.transform(new DOMSource(envelope), new StreamResult(sW));
+		final String sEnvelope = sW.toString();
+		return sEnvelope;
+	}
     
     protected SignatureInfo extractSignatureInfo(Principal subjectDn, Element signatureElem)
         throws Exception {

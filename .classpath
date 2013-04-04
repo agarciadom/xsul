@@ -109,5 +109,6 @@
 	<classpathentry kind="lib" path="lib/xbeans/xbean-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/opensaml/opensaml-1.1.jar"/>
 	<classpathentry kind="lib" path="generated/xmlbeans_typelib/xsul_typelib.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Ant Runtime"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

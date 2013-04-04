@@ -190,16 +190,13 @@
 
         <!-- JAR file name -->
         <property name="xsul_all_jar" value="${build}/xsul-${VERSION}.jar"/>
+        <property name="xsul_all_sources_jar" value="${build}/xsul-${VERSION}-sources.jar"/>
         <property name="xsul_lite_jar" value="${build}/xsul_lite-${VERSION}.jar"/>
+        <property name="xsul_lite_sources_jar" value="${build}/xsul_lite-${VERSION}-sources.jar"/>
         <property name="xsul_client_jar" value="${build}/xsul_client-${VERSION}.jar"/>
         <property name="xsul_samples_jar" value="${build}/xsul_samples-${VERSION}.jar"/>
         <property name="xsul_xwsdlc_jar" value="${build}/xsul_xwsdlc-${VERSION}.jar"/>
-
-
     </target>
-
-
-
 
     <target name="check_junit" unless="junit_present" depends="init">
       <echo message="Warning: JUnit dependencies were not resolved."/>
@@ -287,7 +284,6 @@
         <pathelement path="${build_client}"/>
     </path>
 
-
     <path id="client_server_libraries">
         <path refid="common_libraries"/>
         <pathelement path="${build_common}"/>
@@ -359,7 +355,6 @@
         </dirset>
     </path>
 
-
     <path id="xpola_libraries">
         <fileset dir="${lib}">
             <include name="**/*.jar" />
@@ -373,7 +368,6 @@
     </path>
 
     <!-- Clean up -->
-    
    <target name="clean">
         <!-- Delete the ${build} directory trees -->
         <!--delete dir="${build}" /-->
@@ -389,10 +383,7 @@
         </delete>
     </target>
 
-
     <!--- COMPILING -->
-
-
     <target name="all" depends="clean,xsul" />
     <target name="compile" depends="common,xwsdlc,dsig,dsig_globus,dsig_globus_opensaml,ws_secconv,client,alldsig,server,client_server,rpc,lead,msg_box,dispatcher,xbeans,puretls,xwsif,xservo,xwsif_xbeans,xpola,secconv,wssec,den" />
     <target name="xsul" depends="compile,jar,samples,tests" />
@@ -418,13 +409,6 @@
         </javac>
     </target>
 
-    <!--target name="generated">
-        <mkdir dir="${build_generated}"/>
-        <javac includeantruntime="true" srcdir="${src_generated_java_intf}" destdir="${build_generated}" debug="on" source="1.4">
-            <classpath refid="generated_libraries"/>
-        </javac>
-    </target-->
-    
     <target name="client" depends="common">
         <mkdir dir="${build_client}"/>
         <javac includeantruntime="true" srcdir="${src_invoker}" destdir="${build_client}" debug="on" source="1.4">
@@ -509,9 +493,7 @@
             <classpath refid="puretls_libraries"/>
             <classpath refid="client_libraries"/>            
         </javac>
-	        
     </target>
-
 
     <target name="client_server" depends="client,server">
         <mkdir dir="${build_server}"/>
@@ -806,7 +788,7 @@
     </target>
 
     <target name="jar" depends="compile">
-      <!-- core that does nto need XmlBeans -->
+      <!-- core that does not need XmlBeans -->
       <jar jarfile="${xsul_lite_jar}">
         <manifest>
           <attribute name="Built-By" value="${user.name}"/>
@@ -833,6 +815,56 @@
         <fileset dir="${build_dispatcher}"/>
         <fileset dir="${build_msg_box}"/>
       </jar>
+      <jar jarfile="${xsul_lite_sources_jar}">
+        <manifest>
+          <attribute name="Built-By" value="${user.name}"/>
+          <attribute name="Specification-Title" value="XSUL-lite-sources"/>
+          <attribute name="Specification-Version" value="${SPEC_VERSION}"/>
+          <attribute name="Specification-Vendor" value="${VENDOR}"/>
+          <attribute name="Implementation-Title" value="XSUL-lite-sources"/>
+          <attribute name="Implementation-Version" value="${VERSION}"/>
+          <attribute name="Implementation-Vendor" value="${VENDOR}"/>
+        </manifest>
+        <fileset dir="${src_common}"/>
+
+        <fileset dir="${src_invoker}"/>
+        <fileset dir="${src_invoker_soap}"/>
+        <fileset dir="${src_http_client}"/>
+        <fileset dir="${src_invoker_over_http}"/>
+        <fileset dir="${src_invoker_soap_over_http}"/>
+        <fileset dir="${src_xml_naming_over_http}"/>
+
+        <fileset dir="${src_soap}"/>
+        <fileset dir="${src_soap12}"/>
+        <fileset dir="${src_soap11}"/>
+        <fileset dir="${src_processor}"/>
+        <fileset dir="${src_http_server}"/>
+        <fileset dir="${src_monitoring}"/>
+        <fileset dir="${src_processor_over_http}"/>
+        <fileset dir="${src_processor_soap_over_http}"/>
+        <fileset dir="${src_message_router}"/>
+        <fileset dir="${src_message_router_over_http}"/>
+        <fileset dir="${src_message_secure_router_over_http}"/>
+        <fileset dir="${src_processor_secure}"/>
+
+        <fileset dir="${src_puretls_client_socket_factory}"/>
+        <fileset dir="${src_puretls_server_socket_factory}"/>
+        <fileset dir="${src_invoker_https_gsi}"/>
+
+        <fileset dir="${src_dsig}"/>
+        <fileset dir="${src_dsig_globus}"/>
+
+        <fileset dir="${src_soaprpc_server}"/>
+        <fileset dir="${src_xwsdl}"/>
+        <fileset dir="${src_xs}"/>
+        <fileset dir="${src_xwsif}"/>
+        <fileset dir="${src_xservo}"/>
+        <fileset dir="${src_xbeans_util}"/>
+        <fileset dir="${src_ws_secconv}"/>
+        <fileset dir="${src_dispatcher}"/>
+        <fileset dir="${src_msg_box}"/>
+      </jar>
+
       <!-- Everything including jar file generated by XmlBeans -->
       <jar jarfile="${xsul_all_jar}">
         <manifest>
@@ -854,6 +886,27 @@
         <zipgroupfileset dir="." includes="${xsul_lite_jar}"/>
         <!--fileset dir="${build_generated}"/-->
       </jar>
+      <jar jarfile="${xsul_all_sources_jar}">
+        <manifest>
+          <attribute name="Built-By" value="${user.name}"/>
+          <attribute name="Specification-Title" value="XSUL-sources"/>
+          <attribute name="Specification-Version" value="${SPEC_VERSION}"/>
+          <attribute name="Specification-Vendor" value="${VENDOR}"/>
+          <attribute name="Implementation-Title" value="XSUL-sources"/>
+          <attribute name="Implementation-Version" value="${VERSION}"/>
+          <attribute name="Implementation-Vendor" value="${VENDOR}"/>
+        </manifest>
+        <fileset dir="${src_den}"/>
+        <fileset dir="${src_xhandler_secure}"/>
+        <fileset dir="${src_xpola}"/>
+        <fileset dir="${src_generated}/xmlbeans_typesrc"/>
+
+        <!-- ANT 1.6.2 or later is required -->
+        <!-- http://ant.apache.org/manual/CoreTasks/zip.html -->
+        <zipgroupfileset dir="." includes="${lib_generated_types}"/>
+        <zipgroupfileset dir="." includes="${xsul_lite_sources_jar}"/>
+      </jar>
+
       <jar jarfile="${xsul_client_jar}">
         <manifest>
           <attribute name="Built-By" value="${user.name}"/>

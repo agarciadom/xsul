@@ -158,7 +158,7 @@
     <!-- determine verson by compiling java code and running java class - used to avoid redundancies -->
     <target name="set_version">
         <mkdir dir="${build_common}"/>
-        <javac srcdir="${src_common}" destdir="${build_common}" debug="on" source="1.4" includes="**/XsulVersion.java">
+        <javac includeantruntime="true" srcdir="${src_common}" destdir="${build_common}" debug="on" source="1.4" includes="**/XsulVersion.java">
             <classpath refid="common_libraries"/>
         </javac>
         <java classname="xsul.XsulVersion" failonerror="true" outputproperty="SPEC_VERSION">
@@ -398,51 +398,51 @@
     <target name="xsul" depends="compile,jar,samples,tests" />
 
     <target name="common" depends="init">
-        <javac srcdir="${src_common}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_common}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_http_common}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_http_common}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
 
         <!-- basic SOAP 1.1 support -->
-        <javac srcdir="${src_soap_util}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soap_util}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_soap11_util}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soap11_util}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
         <!-- enhanced SOAP 1.1/1.2 support -->
-        <javac srcdir="${src_soap12_util}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soap12_util}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
     </target>
 
     <!--target name="generated">
         <mkdir dir="${build_generated}"/>
-        <javac srcdir="${src_generated_java_intf}" destdir="${build_generated}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_generated_java_intf}" destdir="${build_generated}" debug="on" source="1.4">
             <classpath refid="generated_libraries"/>
         </javac>
     </target-->
     
     <target name="client" depends="common">
         <mkdir dir="${build_client}"/>
-        <javac srcdir="${src_invoker}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_invoker}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_invoker_soap}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_invoker_soap}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_http_client}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_http_client}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_invoker_over_http}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_invoker_over_http}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_invoker_soap_over_http}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_invoker_soap_over_http}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_xml_naming_over_http}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xml_naming_over_http}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
     </target>
@@ -450,61 +450,61 @@
     <target name="server" depends="common">
         <mkdir dir="${build_server}"/>
 
-        <javac srcdir="${src_soap}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soap}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_soap12}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soap12}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_soap11}" destdir="${build_common}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soap11}" destdir="${build_common}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
 
-        <javac srcdir="${src_processor}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_processor}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_http_server}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_http_server}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
                 
-        <javac srcdir="${src_monitoring}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_monitoring}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
         <copy todir="${build_server}">
           <fileset dir="${src_monitoring}" includes="**/*.ico"/>
         </copy>
         
-        <javac srcdir="${src_processor_over_http}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_processor_over_http}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_processor_soap_over_http}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_processor_soap_over_http}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_message_router}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_message_router}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_message_router_over_http}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_message_router_over_http}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_message_secure_router_over_http}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_message_secure_router_over_http}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="dsig_globus_saml_libraries"/>
         </javac>
-        <javac srcdir="${src_processor_secure}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_processor_secure}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="dsig_globus_saml_libraries"/>
         </javac>
     </target>
 
     <target name="puretls" depends="client,server">
         <mkdir dir="${build_puretls}"/>
-        <javac srcdir="${src_puretls_client_socket_factory}" destdir="${build_puretls}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_puretls_client_socket_factory}" destdir="${build_puretls}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
             <classpath refid="dsig_globus_libraries"/>
         </javac>
-        <javac srcdir="${src_puretls_server_socket_factory}" destdir="${build_puretls}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_puretls_server_socket_factory}" destdir="${build_puretls}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
             <classpath refid="dsig_globus_libraries"/>
         </javac>
-        <javac srcdir="${src_invoker_https_gsi}" destdir="${build_puretls}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_invoker_https_gsi}" destdir="${build_puretls}" debug="on" source="1.4">
             <classpath refid="dsig_globus_saml_libraries"/>
             <classpath refid="puretls_libraries"/>
             <classpath refid="client_libraries"/>            
@@ -515,20 +515,20 @@
 
     <target name="client_server" depends="client,server">
         <mkdir dir="${build_server}"/>
-        <javac srcdir="${src_ws_addressing}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_ws_addressing}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
         </javac>
-        <javac srcdir="${src_ws_addressing_converter}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_ws_addressing_converter}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
         </javac>
-        <javac srcdir="${src_ws_adressing_detect_duplicates}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_ws_adressing_detect_duplicates}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
         </javac>        
     </target>
 
     <target name="lead" depends="client_server,xbeans_util">
         <mkdir dir="${build_server}"/>
-        <javac srcdir="${src_lead}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_lead}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
             <classpath refid="xbeans_libraries"/>
             <classpath refid="xwsdl_xs_libraries"/>            
@@ -538,34 +538,34 @@
 
     <target name="msg_box" depends="client_server">
         <mkdir dir="${build_msg_box}"/>
-        <javac srcdir="${src_msg_box}" destdir="${build_msg_box}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_msg_box}" destdir="${build_msg_box}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
         </javac>
     </target>
 
     <target name="dsig" depends="common">
         <mkdir dir="${build_dsig}"/>
-        <javac srcdir="${src_dsig}" destdir="${build_dsig}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_dsig}" destdir="${build_dsig}" debug="on" source="1.4">
             <classpath refid="dsig_globus_libraries"/>
         </javac>
     </target>
 
     <target name="dsig_globus" depends="common">
         <mkdir dir="${build_dsig_globus}"/>
-        <javac srcdir="${src_dsig_globus}" destdir="${build_dsig_globus}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_dsig_globus}" destdir="${build_dsig_globus}" debug="on" source="1.4">
             <classpath refid="dsig_globus_libraries"/>
         </javac>
     </target>
     
     
     <target name="dsig_globus_opensaml" depends="dsig_globus">
-        <javac srcdir="${src_dsig_globus_opensaml}" destdir="${build_dsig_globus}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_dsig_globus_opensaml}" destdir="${build_dsig_globus}" debug="on" source="1.4">
             <classpath refid="dsig_globus_saml_libraries"/>
         </javac>
     </target>
 
     <target name="dsig_globus_opensaml_client" depends="dsig_globus_opensaml,client">
-        <javac srcdir="${src_invoker_secure_soap_over_http}" destdir="${build_dsig_globus}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_invoker_secure_soap_over_http}" destdir="${build_dsig_globus}" debug="on" source="1.4">
             <classpath refid="dsig_globus_saml_libraries"/>
             <classpath refid="puretls_libraries"/>
             <classpath refid="client_libraries"/>            
@@ -573,13 +573,13 @@
     </target>
 
     <target name="secconv_server" depends="dsig,rpc">
-        <javac srcdir="${src_ws_secconv_server}" destdir="${build_server}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_ws_secconv_server}" destdir="${build_server}" debug="on" source="1.4">
             <classpath refid="secconv_libraries"/>
         </javac>
     </target>
     
     <target name="secconv_client" depends="dsig,rpc">
-        <javac srcdir="${src_ws_secconv_client}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_ws_secconv_client}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="secconv_libraries"/>
         </javac>
     </target>
@@ -591,23 +591,23 @@
     <target name="client_rpc" depends="common,client">
 
         <!-- type handler abstraction to be used in RPC (primarily) -->
-        <javac srcdir="${src_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_type_handler}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
         
         <!-- very simple RPC invocation and relfection based dispatching -->
-        <javac srcdir="${src_soaprpc_client}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soaprpc_client}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
 
         <!-- set of typical type handlers -->
-        <javac srcdir="${src_xsd_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xsd_type_handler}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_soap11_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soap11_type_handler}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
-        <javac srcdir="${src_common_type_handler}" destdir="${build_client}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_common_type_handler}" destdir="${build_client}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
 
@@ -615,7 +615,7 @@
 
     <target name="rpc" depends="client_rpc,server">
         <mkdir dir="${build_rpc}"/>
-        <javac srcdir="${src_soaprpc_server}" destdir="${build_rpc}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_soaprpc_server}" destdir="${build_rpc}" debug="on" source="1.4">
             <classpath refid="client_server_libraries"/>
         </javac>
         
@@ -623,7 +623,7 @@
 
    <target name="xwsdl" depends="common">
         <mkdir dir="${build_xwsdl}"/>
-        <javac srcdir="${src_xwsdl}" destdir="${build_xwsdl}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsdl}" destdir="${build_xwsdl}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
         
@@ -631,7 +631,7 @@
 
    <target name="xs" depends="common">
         <mkdir dir="${build_xs}"/>
-        <javac srcdir="${src_xs}" destdir="${build_xs}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xs}" destdir="${build_xs}" debug="on" source="1.4">
             <classpath refid="common_libraries"/>
         </javac>
         
@@ -639,10 +639,10 @@
 
    <target name="xwsdlc" depends="common,xwsdl">
         <mkdir dir="${build_xwsdlc}"/>
-        <javac srcdir="${src_xwsdlc}" destdir="${build_xwsdlc}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsdlc}" destdir="${build_xwsdlc}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xwsdlc_xbeans}" destdir="${build_xwsdlc}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsdlc_xbeans}" destdir="${build_xwsdlc}" debug="on" source="1.4">
             <classpath refid="xwsdlc_xbeans_libraries"/>
         </javac>
         <jar jarfile="${xsul_xwsdlc_jar}">
@@ -663,46 +663,46 @@
 
    <target name="xwsif" depends="client_rpc,client_server,xwsdl,xs,msg_box">
         <mkdir dir="${build_xwsif}"/>
-        <javac srcdir="${src_ws_addressing_xwsdl}" destdir="${build_xwsdl}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_ws_addressing_xwsdl}" destdir="${build_xwsdl}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xwsif}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xwsif_provider_xsul_soap_http}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_provider_xsul_soap_http}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
 
-        <javac srcdir="${src_xwsif_provider_xsul_soap_gsi}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_provider_xsul_soap_gsi}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
             <classpath refid="puretls_libraries"/>
         </javac>
         
-        <javac srcdir="${src_xwsif_dynamic_invoker}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_dynamic_invoker}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xhandler}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xhandler}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xhandler_soap_sticky_header}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xhandler_soap_sticky_header}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xhandler_drop_repeated_wsa_msg}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xhandler_drop_repeated_wsa_msg}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xhandler_wsa_convert}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xhandler_wsa_convert}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xwsif_runtime_async}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_runtime_async}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xwsif_runtime}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_runtime}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xwsif_runtime_async_http}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_runtime_async_http}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
         </javac>
-        <javac srcdir="${src_xwsif_runtime_async_msgbox}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_runtime_async_msgbox}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
             <classpath refid="msg_box_libraries"/>
         </javac>
@@ -711,55 +711,55 @@
 
    <target name="wssec" depends="xwsif,dsig">
         <mkdir dir="${build_xhandler_secure}"/>
-        <javac srcdir="${src_xhandler_secure}" destdir="${build_xhandler_secure}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xhandler_secure}" destdir="${build_xhandler_secure}" debug="on" source="1.4">
             <classpath refid="wssec_libraries"/>
         </javac>
    </target>
    
    <target name="xservo" depends="client_rpc,rpc,server,xwsdl,xs,xwsif,xbeans_util">
         <mkdir dir="${build_xservo}"/>
-        <javac srcdir="${src_xservo}" destdir="${build_xservo}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xservo}" destdir="${build_xservo}" debug="on" source="1.4">
             <classpath refid="xservo_libraries"/>
         </javac>
-        <javac srcdir="${src_xservo_soap}" destdir="${build_xservo}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xservo_soap}" destdir="${build_xservo}" debug="on" source="1.4">
             <classpath refid="xservo_libraries"/>
         </javac>
-        <javac srcdir="${src_xservices_xbeans}" destdir="${build_xservo}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xservices_xbeans}" destdir="${build_xservo}" debug="on" source="1.4">
             <classpath refid="xservo_libraries"/>
         </javac>
-        <javac srcdir="${src_xservo_soap_http}" destdir="${build_xservo}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xservo_soap_http}" destdir="${build_xservo}" debug="on" source="1.4">
             <classpath refid="xservo_libraries"/>
         </javac>
     </target>
 
     <target name="xbeans_util" depends="init">
         <mkdir dir="${build_xbeans}"/>
-        <javac srcdir="${src_xbeans_util}" destdir="${build_xbeans}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xbeans_util}" destdir="${build_xbeans}" debug="on" source="1.4">
             <classpath refid="xbeans_libraries"/>
         </javac>
     </target>
 
     <target name="xbeans" depends="rpc">
         <mkdir dir="${build_xbeans}"/>
-        <javac srcdir="${src_xbeans_type_handler}" destdir="${build_xbeans}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xbeans_type_handler}" destdir="${build_xbeans}" debug="on" source="1.4">
             <classpath refid="xbeans_libraries"/>
         </javac>
-        <javac srcdir="${src_xbeans_document_dispatcher}" destdir="${build_xbeans}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xbeans_document_dispatcher}" destdir="${build_xbeans}" debug="on" source="1.4">
             <classpath refid="xbeans_libraries"/>
         </javac>
-        <javac srcdir="${src_xbeans_document_invoker}" destdir="${build_xbeans}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xbeans_document_invoker}" destdir="${build_xbeans}" debug="on" source="1.4">
             <classpath refid="xbeans_libraries"/>
         </javac>
-        <javac srcdir="${src_xbeans_secure_document_invoker}" destdir="${build_xbeans}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xbeans_secure_document_invoker}" destdir="${build_xbeans}" debug="on" source="1.4">
             <classpath refid="xbeans_libraries"/>
         </javac>
-        <javac srcdir="${src_epr_router}" destdir="${build_xbeans}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_epr_router}" destdir="${build_xbeans}" debug="on" source="1.4">
             <classpath refid="xbeans_libraries"/>
         </javac>
     </target>
 
     <target name="xwsif_xbeans" depends="xbeans_util,xwsif">
-        <javac srcdir="${src_xwsif_runtime_xbeans}" destdir="${build_xwsif}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xwsif_runtime_xbeans}" destdir="${build_xwsif}" debug="on" source="1.4">
             <classpath refid="xwsdl_xs_libraries"/>
             <classpath refid="xbeans_libraries"/>
         </javac>
@@ -767,7 +767,7 @@
 
     <target name="dispatcher" depends="rpc,msg_box">
         <mkdir dir="${build_dispatcher}"/>
-        <javac srcdir="${src_dispatcher}" destdir="${build_dispatcher}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_dispatcher}" destdir="${build_dispatcher}" debug="on" source="1.4">
             <classpath refid="all_libraries"/>
         </javac>
         <copy todir="${build_dispatcher}">
@@ -777,7 +777,7 @@
         
     <target name="den" depends="dispatcher">
       <mkdir dir="${build_den}"/>
-        <javac srcdir="${src_den}" destdir="${build_den}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_den}" destdir="${build_den}" debug="on" source="1.4">
             <classpath refid="all_libraries"/>
         </javac>
         <copy todir="${build_den}">
@@ -787,17 +787,17 @@
 
     <target name="ws_secconv" depends="dsig_globus_opensaml">
         <mkdir dir="${build_ws_secconv}"/>
-        <javac srcdir="${src_ws_secconv}" destdir="${build_ws_secconv}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_ws_secconv}" destdir="${build_ws_secconv}" debug="on" source="1.4">
             <classpath refid="all_libraries"/>
         </javac>
     </target>
 
     <target name="xpola" depends="dsig_globus_opensaml,rpc">
         <mkdir dir="${build_xpola}"/>
-        <javac srcdir="${src_generated_java_intf}" destdir="${build_xpola}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_generated_java_intf}" destdir="${build_xpola}" debug="on" source="1.4">
             <classpath refid="xpola_libraries"/>
         </javac>
-        <javac srcdir="${src_xpola}" destdir="${build_xpola}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_xpola}" destdir="${build_xpola}" debug="on" source="1.4">
             <classpath refid="xpola_libraries"/>
         </javac>
         <copy todir="${build_xpola}">
@@ -875,7 +875,7 @@
     <!-- SAMPLES -->
     <target name="samples" depends="jar">
         <mkdir dir="${build_samples}"/>
-        <javac srcdir="${src_samples}" destdir="${build_samples}" debug="on" source="1.4"
+        <javac includeantruntime="true" srcdir="${src_samples}" destdir="${build_samples}" debug="on" source="1.4"
           excludes="xsul_sample_wsa/**"
         >
             <classpath refid="all_libraries"/>
@@ -894,7 +894,7 @@
     <!-- TESTS -->
     <target name="tests" depends="check_junit,compile" if="junit_present">
         <mkdir dir="${build_tests}"/>
-        <javac srcdir="${src_tests}" destdir="${build_tests}" debug="on" source="1.4">
+        <javac includeantruntime="true" srcdir="${src_tests}" destdir="${build_tests}" debug="on" source="1.4">
             <classpath refid="all_libraries"/>
         </javac>
         <copy todir="${build_tests}">
